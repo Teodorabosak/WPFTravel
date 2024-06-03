@@ -1,0 +1,23 @@
+﻿<Window x:Class="WPFTravel.Forme.Komentar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFTravel.Forme"
+        mc:Ignorable="d"
+        Title="Dodaj Komentar" Height="300" Width="400">
+    <Grid>
+        <Label Content="ID Komentara:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        <Label Content="ID Korisnika:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ocena:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
+        <Label Content="Komentar:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
+
+        <TextBox x:Name="txtIdKomentara" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
+        <TextBox x:Name="txtIdKorisnika" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
+        <TextBox x:Name="txtOcena" HorizontalAlignment="Left" Height="23" Margin="180,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
+        <TextBox x:Name="txtKomentar" HorizontalAlignment="Left" Height="100" Margin="180,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
+
+        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="220,240,0,0" VerticalAlignment="Top" Width="100"/>
+    </Grid>
+</Window>

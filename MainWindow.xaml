@@ -1,0 +1,30 @@
+﻿<Window x:Class="WPFTravel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFTravel"
+        mc:Ignorable="d"
+        Title="Rezervacija putovanja" Height="350" Width="530">
+    <Grid>
+        <!-- DataGrid for displaying central data -->
+        <DataGrid Name="dataGridCentralni" HorizontalAlignment="Center" VerticalAlignment="Center" Height="auto" Width="auto" IsReadOnly="True"
+                  AlternatingRowBackground="Aqua" CanUserAddRows="False" SelectionUnit="FullRow" SelectionMode="Single"/>
+
+        <!-- StackPanel for buttons related to entities -->
+        <StackPanel HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+            <Button x:Name="btnPutovanja" Content="Putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnTipoviPutovanja" Content="Tipovi putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="btnPutnaOsiguranja" Content="Putna osiguranja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="btnRezervacije" Content="Rezervacije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="100"/>
+            <Button x:Name="btnPrevoz" Content="Prevoz" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+        </StackPanel>
+
+        <!-- StackPanel for buttons related to data manipulation -->
+        <StackPanel HorizontalAlignment="Center" Height="30" VerticalAlignment="Bottom" Width="360" Orientation="Horizontal">
+            <Button x:Name="btnDodaj" Content="Dodaj" Width="120"/>
+            <Button x:Name="btnIzmeni" Content="Izmeni" Width="120" />
+            <Button x:Name="btnObrisi" Content="Obriši" Width="120" />
+        </StackPanel>
+    </Grid>
+</Window>
