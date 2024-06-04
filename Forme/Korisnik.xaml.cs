@@ -33,13 +33,24 @@ namespace WPFTravel.Forme
 			konekcija = kon.KreirajKonekciju();
 		}
 
+		public Korisnik( bool azuriraj, DataRowView pomocniRed)
+		{
 
-		private void Button_Click(object sender, RoutedEventArgs e) //sacuvaj
+			InitializeComponent();
+			txtBrTel.Focus();
+			//this.azuriraj = azuriraj;
+			//this.pomocniRed = pomocniRed;
+
+			konekcija = kon.KreirajKonekciju();
+
+		}
+
+		private void BtnSacuvaj(object sender, RoutedEventArgs e) //sacuvaj
 		{
 
 		}
 
-		private void Button_Click_1(object sender, RoutedEventArgs e) //otkazi
+		private void BtnOtkazi(object sender, RoutedEventArgs e) //otkazi
 		{
 			this.Close();
 		}

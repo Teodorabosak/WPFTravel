@@ -67,7 +67,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forme\Putno_osiguranje.xaml">
+    <Page Include="Forme\PutnoOsiguranje.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,7 +79,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forme\Tip_putovanja.xaml">
+    <Page Include="Forme\TipPutovanja.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,8 +104,8 @@
     <Compile Include="Forme\Prevoz.xaml.cs">
       <DependentUpon>Prevoz.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forme\Putno_osiguranje.xaml.cs">
-      <DependentUpon>Putno_osiguranje.xaml</DependentUpon>
+    <Compile Include="Forme\PutnoOsiguranje.xaml.cs">
+      <DependentUpon>PutnoOsiguranje.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forme\Putovanje.xaml.cs">
       <DependentUpon>Putovanje.xaml</DependentUpon>
@@ -113,8 +113,8 @@
     <Compile Include="Forme\Rezervacija.xaml.cs">
       <DependentUpon>Rezervacija.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forme\Tip_putovanja.xaml.cs">
-      <DependentUpon>Tip_putovanja.xaml</DependentUpon>
+    <Compile Include="Forme\TipPutovanja.xaml.cs">
+      <DependentUpon>TipPutovanja.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forme\Zaposleni.xaml.cs">
       <DependentUpon>Zaposleni.xaml</DependentUpon>

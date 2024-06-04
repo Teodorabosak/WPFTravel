@@ -15,7 +15,7 @@
         <Label Content="Broj Aranžmana:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
 
         <TextBox x:Name="txtIdRez" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtIdPutovanja" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbPutovanje" HorizontalAlignment="Left" Margin="180,50,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Destinacija" SelectedValuePath="Id_putovanja"/>
         <DatePicker x:Name="dpDatumR" HorizontalAlignment="Left" Margin="180,80,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtIdKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <CheckBox x:Name="chkOtkaz" HorizontalAlignment="Left" Margin="231,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.125,0.2"/>

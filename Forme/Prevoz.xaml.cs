@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,14 @@ namespace WPFTravel.Forme
 	/// </summary>
 	public partial class Prevoz : Window
 	{
+		Konekcija kon = new Konekcija();
+		SqlConnection konekcija = new SqlConnection();
+
 		public Prevoz()
 		{
 			InitializeComponent();
+			txtVrstaPrevoza.Focus();
+			konekcija = kon.KreirajKonekciju();
 		}
 	}
 }

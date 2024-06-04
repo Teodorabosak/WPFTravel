@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,41 @@ namespace WPFTravel.Forme
 	/// </summary>
 	public partial class Komentar : Window
 	{
+		SqlConnection konekcija = new SqlConnection();
+		Konekcija kon = new Konekcija();
+
 		public Komentar()
 		{
 			InitializeComponent();
+			txtIdKomentara.Focus();
+			konekcija = kon.KreirajKonekciju();
+			PopuniPadajuceListe();
 		}
-	}
+        private void PopuniPadajuceListe()
+        {
+            try
+            {
+                konekcija.Open();
+
+                string vratiKor = @"select id_korisnik, Ime + ' '+ prezime from korisnik";
+                DataTable dtKorisnik = new DataTable();
+                SqlDataAdapter daKorisnik = new SqlDataAdapter(vratiKor, konekcija);
+                daKorisnik.Fill(dtKorisnik);
+
+                cbKorisnik.ItemsSource = dtKorisnik.DefaultView;
+                dtKorisnik.Dispose();
+                daKorisnik.Dispose();
+
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("Padajuće liste nisu popunjene!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (konekcija != null)
+                    konekcija.Close();
+            }
+        }
+    }
 }

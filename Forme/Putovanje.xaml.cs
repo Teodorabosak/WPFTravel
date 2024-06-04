@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,16 @@ namespace WPFTravel.Forme
 	/// </summary>
 	public partial class Putovanje : Window
 	{
+
+		Konekcija kon = new Konekcija();
+		SqlConnection konekcija = new SqlConnection();
+
 		public Putovanje()
 		{
 			InitializeComponent();
+			txtDestinacija.Focus();
+			konekcija = kon.KreirajKonekciju();
+
 		}
 	}
 }
