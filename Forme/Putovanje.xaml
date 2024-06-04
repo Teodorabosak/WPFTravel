@@ -20,11 +20,11 @@
         <TextBox x:Name="txtDestinacija" HorizontalAlignment="Left" Height="23" Margin="150,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
         <TextBox x:Name="txtCena" HorizontalAlignment="Left" Height="23" Margin="150,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
         <TextBox x:Name="txtOpis" HorizontalAlignment="Left" Height="23" Margin="150,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
-        <ComboBox x:Name="cbTipPutovanja" HorizontalAlignment="Left" Margin="150,170,0,0" VerticalAlignment="Top" Width="150"/>
-        <ComboBox x:Name="cbVrstaPrevoza" HorizontalAlignment="Left" Margin="150,200,0,0" VerticalAlignment="Top" Width="150"/>
+        <ComboBox x:Name="cbTipPutovanja" HorizontalAlignment="Left" Margin="150,170,0,0" DisplayMemberPath="Naziv" SelectedValuePath="Id_tip" VerticalAlignment="Top" Width="150"/>
+        <ComboBox x:Name="cbVrstaPrevoza" HorizontalAlignment="Left" Margin="150,200,0,0" DisplayMemberPath="Vrsta" SelectedValuePath="Id_prevoz"  VerticalAlignment="Top" Width="150"/>
 
-        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,250,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnSacuvaj" Click="btnSacuvaj_Click" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,250,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Click="btnOtkazi_Click" Content="Otkaži" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>
 

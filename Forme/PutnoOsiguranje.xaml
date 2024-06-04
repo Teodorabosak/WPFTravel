@@ -18,10 +18,10 @@
         <TextBox x:Name="txtIznosO" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <DatePicker x:Name="dpPocetak" HorizontalAlignment="Left" Margin="180,80,0,0" VerticalAlignment="Top" Width="120"/>
         <DatePicker x:Name="dpKraj" HorizontalAlignment="Left" Margin="180,110,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtIdRez" HorizontalAlignment="Left" Height="23" Margin="180,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtIdZ" HorizontalAlignment="Left" Height="23" Margin="180,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="txtIdRez" HorizontalAlignment="Left" Height="23" Margin="180,140,0,0" DisplayMemberPath="Destinacija" SelectedValuePath="Id_putovanja" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="txtIdZ" HorizontalAlignment="Left" Height="23" Margin="180,170,0,0" DisplayMemberPath="id_korisnik" SelectedValuePath="Id_korisnik" VerticalAlignment="Top" Width="120"/>
 
-        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,220,0,0" VerticalAlignment="Top" Width="100" Click="BtnSacuvaj_Click"/>
-        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,220,0,0" VerticalAlignment="Top" Width="100" Click="BtnOtkazi_Click"/>
+        <Button x:Name="btnSacuvaj" Click="BtnSacuvaj_Click" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,220,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Click="BtnOtkazi_Click" Content="Otkaži" HorizontalAlignment="Left" Margin="200,220,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

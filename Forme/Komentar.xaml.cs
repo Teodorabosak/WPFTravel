@@ -24,20 +24,32 @@ namespace WPFTravel.Forme
 		SqlConnection konekcija = new SqlConnection();
 		Konekcija kon = new Konekcija();
 
-		public Komentar()
+        private bool azuriraj;
+        private DataRowView pomocniRed;
+
+        public Komentar()
 		{
 			InitializeComponent();
 			txtIdKomentara.Focus();
 			konekcija = kon.KreirajKonekciju();
 			PopuniPadajuceListe();
 		}
+        public Komentar(bool azuriraj, DataRowView pomocniRed)
+        {
+            InitializeComponent();
+            txtIdKomentara.Focus();
+            konekcija = kon.KreirajKonekciju();
+            PopuniPadajuceListe();
+            this.azuriraj = azuriraj;
+            this.pomocniRed = pomocniRed;
+        }
         private void PopuniPadajuceListe()
         {
             try
             {
                 konekcija.Open();
 
-                string vratiKor = @"select id_korisnik, Ime + ' '+ prezime from korisnik";
+                string vratiKor = @"select Id_korisnik, Ime + ' '+ prezime from korisnik";
                 DataTable dtKorisnik = new DataTable();
                 SqlDataAdapter daKorisnik = new SqlDataAdapter(vratiKor, konekcija);
                 daKorisnik.Fill(dtKorisnik);

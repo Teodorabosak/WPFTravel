@@ -24,8 +24,11 @@ namespace WPFTravel.Forme
 	{
 		SqlConnection konekcija = new SqlConnection();
 		Konekcija kon = new Konekcija();
-		
-		
+
+		private bool azuriraj;
+		private DataRowView pomocniRed;
+
+
 		public Korisnik()
 		{
 			InitializeComponent();
@@ -38,8 +41,19 @@ namespace WPFTravel.Forme
 
 			InitializeComponent();
 			txtBrTel.Focus();
-			//this.azuriraj = azuriraj;
-			//this.pomocniRed = pomocniRed;
+			this.azuriraj = azuriraj;
+			this.pomocniRed = pomocniRed;
+
+			if (azuriraj)
+			{
+				txtBrTel.Text = pomocniRed["Br_Tel"].ToString();
+				txtAdresa.Text = pomocniRed["Adresa"].ToString();
+				txtIme.Text = pomocniRed["Ime"].ToString();
+				txtPrezime.Text = pomocniRed["Prezime"].ToString();
+				txtUsername.Text = pomocniRed["Username"].ToString();
+				txtPassword.Password = pomocniRed["Password"].ToString();
+				dpDatumRodj.SelectedDate = Convert.ToDateTime(pomocniRed["Datum_rodj"]);
+			}
 
 			konekcija = kon.KreirajKonekciju();
 

@@ -70,14 +70,14 @@ namespace WPFTravel
 
 		#region Select upiti sa uslovom
 
-		string korSelectUslov = @"select * from korisnik where id_korisnik=";
-		string komSelectUslov = @"select * from komentar where id_kom=";
-		string prevozSelectUslov= @"select * from prevoz where id_prevoz=";
-		string putnooSelectUslov= @"select * from putno_osiguranje where id_osig=";
-		string putSelectUslov= @"select * from putovanje where id_putovanja=";
-		string rezSelectUslov= @"select * from rezervacija where id_rez=";
-		string tippuSelectUslov= @"select * from tip_putovanja where id_tip=";
-		string zapSelectUslov= @"select * from zaposleni  where id_z=";
+		string UpdateKorisnik = @"select * from korisnik where id_korisnik=";
+		string UpdateKomentar = @"select * from komentar where id_kom=";
+		string UpdatePrevoz = @"select * from prevoz where id_prevoz=";
+		string UpdatePutnoOsiguranje = @"select * from putno_osiguranje where id_osig=";
+		string UpdatePutovanje = @"select * from putovanje where id_putovanja=";
+		string UpdateRezervacija = @"select * from rezervacija where id_rez=";
+		string UpdateTipPutovanja = @"select * from tip_putovanja where id_tip=";
+		string UpdateZaposleni = @"select * from zaposleni  where id_z=";
 
 		#endregion
 
@@ -97,7 +97,7 @@ namespace WPFTravel
 			InitializeComponent();
 			konekcija = kon.KreirajKonekciju();
 			UcitajPodatke(dataGridCentralni, putovanjaSelect);
-			
+
 		}
 		public void UcitajPodatke(DataGrid grid, string selectUpit)
 		{
@@ -107,6 +107,9 @@ namespace WPFTravel
 				SqlDataAdapter dataAdapter = new SqlDataAdapter(selectUpit, konekcija);
 				DataTable dt = new DataTable();
 				dataAdapter.Fill(dt);
+
+
+
 				if (grid != null)
 				{
 					grid.ItemsSource = dt.DefaultView;
@@ -127,14 +130,14 @@ namespace WPFTravel
 				}
 			}
 		}
-		//read
 
-		private void BtnKorisnici(object sender, RoutedEventArgs e) 
+
+		private void BtnKorisnici(object sender, RoutedEventArgs e)
 		{
 			UcitajPodatke(dataGridCentralni, korisniciSelect);
 		}
 
-		private void BtnPutovanja(object sender, RoutedEventArgs e) 
+		private void BtnPutovanja(object sender, RoutedEventArgs e)
 		{
 			UcitajPodatke(dataGridCentralni, putovanjaSelect);
 		}
@@ -164,7 +167,7 @@ namespace WPFTravel
 		}
 
 		// CREATE
-		private void BtnDodaj(object sender, RoutedEventArgs e) 
+		private void BtnDodaj(object sender, RoutedEventArgs e)
 		{
 			Window prozor;
 
@@ -221,12 +224,105 @@ namespace WPFTravel
 
 		}
 		// UPDATE
-		private void BtnIzmeni(DataGrid grid, string selectUslov) 
-		{ 
 
+		void PopuniFormu(DataGrid grid, string selectUslov, string idColumnName)
+		{
+			if (grid.SelectedItems.Count == 0)
+			{
+				MessageBox.Show("Niste selektovali red!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			try
+			{
+				konekcija.Open();
+				DataRowView red = (DataRowView)grid.SelectedItems[0];
+				int id = Convert.ToInt32(red[idColumnName]);
+
+				using (SqlCommand komanda = new SqlCommand(selectUslov, konekcija))
+				{
+					komanda.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+					using (SqlDataReader citac = komanda.ExecuteReader())
+					{
+						if (citac.Read())
+						{
+							if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal))
+							{
+								Korisnik prozorKor = new Korisnik(azuriraj, pomocniRed);
+								prozorKor.txtBrTel.Text = citac["br_tel"].ToString();
+								prozorKor.txtAdresa.Text = citac["adresa"].ToString();
+								prozorKor.txtIme.Text = citac["ime"].ToString();
+								prozorKor.txtPrezime.Text = citac["prezime"].ToString();
+								prozorKor.txtUsername.Text = citac["username"].ToString();
+								prozorKor.txtPassword.Password = citac["password"].ToString();
+								prozorKor.dpDatumRodj.Text = citac["datum_rodj"].ToString();
+							}
+							else if (ucitanaTabela.Equals(rezervacijaSelect, StringComparison.Ordinal))
+							{
+								Rezervacija prozorRez = new Rezervacija(azuriraj, pomocniRed);
+								prozorRez.txtIdRez.Text = citac["Id_rez"].ToString();
+								prozorRez.cbPutovanje.SelectedValue = citac["Id_putovanja"];
+								prozorRez.dpDatumR.SelectedDate = Convert.ToDateTime(citac["Datum_r"]);
+								prozorRez.cbKorisnik.SelectedValue = citac["Id_korisnik"];
+								prozorRez.chkOtkaz.IsChecked = (bool)citac["Otkaz"];
+								prozorRez.txtBrojAranzmana.Text = citac["Broj_aranzmana"].ToString();
+							}
+							else if (ucitanaTabela.Equals(prevozSelect, StringComparison.Ordinal))
+							{
+								Prevoz prozorPR = new Prevoz(azuriraj, pomocniRed);
+								// Popunite potrebne vrednosti za prevoz
+							}
+							else if (ucitanaTabela.Equals(tipPutovanjaSelect, StringComparison.Ordinal))
+							{
+								TipPutovanja prozorTP = new TipPutovanja(azuriraj, pomocniRed);
+								// Popunite potrebne vrednosti za tip putovanja
+							}
+							else if (ucitanaTabela.Equals(zaposleniSelect, StringComparison.Ordinal))
+							{
+								Zaposleni prozorZap = new Zaposleni(azuriraj, pomocniRed);
+								// Popunite potrebne vrednosti za zaposleni
+							}
+							else if (ucitanaTabela.Equals(komentarSelect, StringComparison.Ordinal))
+							{
+								Komentar prozorKom = new Komentar(azuriraj, pomocniRed);
+								// Popunite potrebne vrednosti za komentar
+							}
+							else if (ucitanaTabela.Equals(putnoOsiguranjeSelect, StringComparison.Ordinal))
+							{
+								PutnoOsiguranje prozorPO = new PutnoOsiguranje(azuriraj, pomocniRed);
+								// Popunite potrebne vrednosti za putno osiguranje
+							}
+							else if (ucitanaTabela.Equals(putovanjaSelect, StringComparison.Ordinal))
+							{
+								Putovanje prozorPut = new Putovanje(azuriraj, pomocniRed);
+								// Popunite potrebne vrednosti za putovanje
+							}
+						}
+					}
+				}
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+				MessageBox.Show("Niste selektovali red!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			catch (SqlException ex)
+			{
+				MessageBox.Show($"SQL greška: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			finally
+			{
+				if (konekcija != null)
+				{
+					konekcija.Close();
+				}
+			}
 		}
+
+
+
+
 		// DELETE
-		 void ObrisiZapis(DataGrid grid, string deleteUpit)
+		void ObrisiZapis(DataGrid grid, string deleteUpit, string idColumnName)
 		{
 			try
 			{
@@ -238,13 +334,8 @@ namespace WPFTravel
 
 				if (rezultat == MessageBoxResult.Yes)
 				{
-					SqlCommand komanda = new SqlCommand
-					{
-						Connection = konekcija
-					};
-
-					komanda.Parameters.Add("@id", SqlDbType.Int).Value = red["ID"];
-					komanda.CommandText = deleteUpit + "@id";
+					SqlCommand komanda = new SqlCommand(deleteUpit, konekcija);
+					komanda.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(red[idColumnName]);
 					komanda.ExecuteNonQuery();
 					komanda.Dispose();
 				}
@@ -271,57 +362,105 @@ namespace WPFTravel
 				}
 			}
 		}
-		private void BtnObrisi(object sender, RoutedEventArgs e) 
+		private void BtnObrisi(object sender, RoutedEventArgs e)
 		{
 			if (ucitanaTabela.Equals(korisniciSelect))
 			{
-				ObrisiZapis(dataGridCentralni, korisniciDelete);
+				ObrisiZapis(dataGridCentralni, korisniciDelete, "Id_korisnik");
 				UcitajPodatke(dataGridCentralni, korisniciSelect);
 
-			} else if (ucitanaTabela.Equals(komentarSelect))
+			}
+			else if (ucitanaTabela.Equals(komentarSelect))
 			{
-				ObrisiZapis(dataGridCentralni, komentarDelete);
+				ObrisiZapis(dataGridCentralni, komentarDelete, "id_kom");
 				UcitajPodatke(dataGridCentralni, komentarSelect);
 
 			}
 			else if (ucitanaTabela.Equals(prevozSelect))
 			{
-				ObrisiZapis(dataGridCentralni, prevozDelete);
+				ObrisiZapis(dataGridCentralni, prevozDelete, "id_prevoz");
 				UcitajPodatke(dataGridCentralni, prevozSelect);
 
 			}
 			else if (ucitanaTabela.Equals(putovanjaSelect))
 			{
-				ObrisiZapis(dataGridCentralni, putovanjeDelete);
+				ObrisiZapis(dataGridCentralni, putovanjeDelete, "id_putovanja");
 				UcitajPodatke(dataGridCentralni, putovanjaSelect);
 
 			}
 			else if (ucitanaTabela.Equals(rezervacijaSelect))
 			{
-				ObrisiZapis(dataGridCentralni, deleteRez);
+				ObrisiZapis(dataGridCentralni, deleteRez, "Id_rez");
 				UcitajPodatke(dataGridCentralni, rezervacijaSelect);
 
 			}
 			else if (ucitanaTabela.Equals(zaposleniSelect))
 			{
-				ObrisiZapis(dataGridCentralni, deleteZap);
+				ObrisiZapis(dataGridCentralni, deleteZap, "Id_z");
 				UcitajPodatke(dataGridCentralni, zaposleniSelect);
 
 			}
 			else if (ucitanaTabela.Equals(tipPutovanjaSelect))
 			{
-				ObrisiZapis(dataGridCentralni, deleteTP);
+				ObrisiZapis(dataGridCentralni, deleteTP, "Id_tip");
 				UcitajPodatke(dataGridCentralni, tipPutovanjaSelect);
 
 			}
 			else if (ucitanaTabela.Equals(putnoOsiguranjeSelect))
 			{
-				ObrisiZapis(dataGridCentralni, deletePO);
+				ObrisiZapis(dataGridCentralni, deletePO, "id_osig");
 				UcitajPodatke(dataGridCentralni, putnoOsiguranjeSelect);
 
 			}
 		}
-	}
-}
+
+		private void btnIzmeni_Click(object sender, RoutedEventArgs e)
+		{
+			if (ucitanaTabela.Equals(korisniciSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdateKorisnik, "id_korisnik");
+				UcitajPodatke(dataGridCentralni, korisniciSelect);
+
+			}
+			else if (ucitanaTabela.Equals(rezervacijaSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdateRezervacija, "id_rez");
+				UcitajPodatke(dataGridCentralni, rezervacijaSelect);
+			}
+			else if (ucitanaTabela.Equals(putovanjaSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdatePutovanje, "id_putovanje");
+				UcitajPodatke(dataGridCentralni, putovanjaSelect);
+			}
+			else if (ucitanaTabela.Equals(komentarSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdateKomentar, "id_kom");
+				UcitajPodatke(dataGridCentralni, komentarSelect);
+			}
+			else if (ucitanaTabela.Equals(zaposleniSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdateZaposleni, "id_z");
+				UcitajPodatke(dataGridCentralni, zaposleniSelect);
+			}
+			else if (ucitanaTabela.Equals(tipPutovanjaSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdateTipPutovanja, "id_tip");
+				UcitajPodatke(dataGridCentralni, tipPutovanjaSelect);
+			}
+			else if (ucitanaTabela.Equals(prevozSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdatePrevoz, "id_prevoz");
+				UcitajPodatke(dataGridCentralni, prevozSelect);
+			}
+			else if (ucitanaTabela.Equals(putnoOsiguranjeSelect))
+			{
+				PopuniFormu(dataGridCentralni, UpdatePutnoOsiguranje,"id_osig");
+				UcitajPodatke(dataGridCentralni, putnoOsiguranjeSelect);
+
+			}
+		}
+
 		
-	
+	}
+
+}

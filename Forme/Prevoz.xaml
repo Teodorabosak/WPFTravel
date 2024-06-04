@@ -13,7 +13,7 @@
         <TextBox x:Name="txtIdPrevoz" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtVrstaPrevoza" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
-        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,100,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnSacuvaj" Click="btnSacuvaj_Click" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Click="btnOtkazi_Click" Content="Otkaži" HorizontalAlignment="Left" Margin="200,100,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

@@ -7,13 +7,12 @@
         mc:Ignorable="d"
         Title="Dodaj/Izmeni Tip Putovanja" Height="200" Width="300">
     <Grid>
-        <Label Content="ID Tipa Putovanja:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
-        <Label Content="Naziv:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
+        
+        <Label Content="Naziv:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdTip" HorizontalAlignment="Left" Height="23" Margin="150,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txtNaziv" HorizontalAlignment="Left" Height="23" Margin="150,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
-        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,100,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnSacuvaj" Click="BtnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Click="BtnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,100,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

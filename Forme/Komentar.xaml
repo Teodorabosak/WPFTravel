@@ -13,7 +13,7 @@
         <Label Content="Komentar:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
 
         <TextBox x:Name="txtIdKomentara" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
-        <ComboBox x:Name="cbKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" DisplayMemberPath="Id_korisnika" VerticalAlignment="Top" Width="160"/>
+        <ComboBox x:Name="cbKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" DisplayMemberPath="id_korisnika" SelectedValuePath="username" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="txtOcena" HorizontalAlignment="Left" Height="23" Margin="180,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="txtKomentar" HorizontalAlignment="Left" Height="100" Margin="180,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
 

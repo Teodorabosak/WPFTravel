@@ -25,8 +25,8 @@
 
         <!--crud operacije  -->
         <StackPanel HorizontalAlignment="Center" Height="30" VerticalAlignment="Bottom" Width="360" Orientation="Horizontal">
-            <Button x:Name="btnDodaj" Click="BtnDodaj" Content="Dodaj" Width="120"/>
-            <Button x:Name="btnIzmeni" Content="Izmeni" Width="120" />
+            <Button x:Name="btnDodaj" Click="BtnDodaj" Content="Dodaj" Width="120"/> 
+            <Button x:Name="btnIzmeni" Click="btnIzmeni_Click" Content="Izmeni" Width="120" />
             <Button x:Name="btnObrisi" Click="BtnObrisi" Content="Obriši" Width="120" />
         </StackPanel>
     </Grid>

@@ -25,7 +25,7 @@
         <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="23" Margin="180,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
         <DatePicker x:Name="dpDatumRodj" HorizontalAlignment="Left" Margin="180,230,0,0" VerticalAlignment="Top" Width="160"/>
 
-        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,300,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,300,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnSacuvaj" Click="BtnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,300,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Click="BtnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,300,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>
