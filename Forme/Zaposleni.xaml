@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="Dodaj/Izmeni Zaposlenog" Height="300" Width="400">
     <Grid>
-        <Label Content="ID Zaposlenog:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        
         <Label Content="Ime:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
         <Label Content="Prezime:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
         <Label Content="Email:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
         <Label Content="Lozinka:" HorizontalAlignment="Left" Margin="30,140,0,0" VerticalAlignment="Top"/>
         <Label Content="Korisničko Ime:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdZaposlenog" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
+        
         <TextBox x:Name="txtIme" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="txtPrezime" HorizontalAlignment="Left" Height="23" Margin="180,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="180,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>

@@ -21,7 +21,7 @@ namespace WPFTravel.Forme
             InitializeComponent();
             konekcija = kon.KreirajKonekciju();
             PopuniPadajuceListe();
-            txtIdRez.Focus();
+            
         }
 
         public Rezervacija(bool azuriraj, DataRowView pomocniRed)
@@ -29,19 +29,22 @@ namespace WPFTravel.Forme
             InitializeComponent();
             konekcija = kon.KreirajKonekciju();
             PopuniPadajuceListe();
-            txtIdRez.Focus();
+           
             this.azuriraj = azuriraj;
             this.pomocniRed = pomocniRed;
 
-            if (azuriraj)
+            if (azuriraj && pomocniRed != null)
             {
-                txtIdRez.Text = pomocniRed["Id_rez"].ToString();
-                cbPutovanje.SelectedValue = pomocniRed["Id_putovanja"];
-                dpDatumR.SelectedDate = (DateTime)pomocniRed["Datum_r"];
-                cbKorisnik.SelectedValue = pomocniRed["Id_korisnik"];
-                chkOtkaz.IsChecked = pomocniRed["Otkaz"].ToString() == "otkazana";
-                txtBrojAranzmana.Text = pomocniRed["Broj_aranzmana"].ToString();
-                txtIdRez.IsEnabled = false;
+                if (pomocniRed.DataView.Table.Columns.Contains("Id_putovanja"))
+                    cbPutovanje.SelectedValue = pomocniRed["Id_putovanja"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Datum_r"))
+                    dpDatumR.SelectedDate = (DateTime)pomocniRed["Datum_r"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Id_korisnik"))
+                    cbKorisnik.SelectedValue = pomocniRed["Id_korisnik"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Otkaz"))
+                    chkOtkaz.IsChecked = pomocniRed["Otkaz"].ToString() == "otkazana";
+                if (pomocniRed.DataView.Table.Columns.Contains("Broj_aranzmana"))
+                    txtBrojAranzmana.Text = pomocniRed["Broj_aranzmana"].ToString();
             }
         }
 
@@ -60,7 +63,7 @@ namespace WPFTravel.Forme
                 dtPutovanja.Dispose();
                 daPutovanja.Dispose();
 
-                string vratiKor = @"SELECT Id_korisnik FROM Korisnik";
+                string vratiKor = @"SELECT Id_korisnik, Username FROM Korisnik";
                 DataTable dtKor = new DataTable();
                 SqlDataAdapter daKor = new SqlDataAdapter(vratiKor, konekcija);
                 daKor.Fill(dtKor);
@@ -86,7 +89,7 @@ namespace WPFTravel.Forme
             {
                 konekcija.Open();
 
-                int id_Rez = int.Parse(txtIdRez.Text);
+                //int id_Rez = int.Parse(txtIdRez.Text);
                 DateTime datum = dpDatumR.SelectedDate.Value;
 
                 string otkaz = chkOtkaz.IsChecked ?? false ? "otkazana" : "aktivna";
@@ -103,12 +106,14 @@ namespace WPFTravel.Forme
                 }
                 else
                 {
-                    sacuvajRezervaciju = "INSERT INTO Rezervacija (Id_rez, Datum_r, Id_putovanja, Id_korisnik, Otkaz, Broj_aranzmana) " +
-                                         "VALUES (@IdRezervacije, @DatumRezervacije, @IdPutovanja, @IdKorisnika, @Otkaz, @BrojAranzmana)";
+                    sacuvajRezervaciju = "INSERT INTO Rezervacija (Datum_r, Id_putovanja, Id_korisnik, Otkaz, Broj_aranzmana) " +
+                                         "VALUES ( @DatumRezervacije, @IdPutovanja, @IdKorisnika, @Otkaz, @BrojAranzmana)";
                 }
-
                 SqlCommand cmd = new SqlCommand(sacuvajRezervaciju, konekcija);
-                cmd.Parameters.AddWithValue("@IdRezervacije", id_Rez);
+                if (azuriraj)
+                {
+                    cmd.Parameters.AddWithValue("@IdRezervacije", pomocniRed["Id_rez"]);
+                }
                 cmd.Parameters.AddWithValue("@DatumRezervacije", datum);
                 cmd.Parameters.AddWithValue("@IdPutovanja", idPutovanja);
                 cmd.Parameters.AddWithValue("@IdKorisnika", idKorisnika);
@@ -134,7 +139,6 @@ namespace WPFTravel.Forme
 
         private void BtnOtkazi_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-        }
+            this.Close();        }
     }
 }

@@ -34,8 +34,14 @@ namespace WPFTravel.Forme
 
             if (azuriraj)
             {
-                txtIdPrevoz.Text = pomocniRed["Id_prevoz"].ToString();
-                txtVrstaPrevoza.Text = pomocniRed["Vrsta"].ToString();
+                if (pomocniRed != null)
+                {
+                    txtVrstaPrevoza.Text = pomocniRed["Vrsta"].ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Podaci nisu dostupni za ažuriranje.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -45,24 +51,27 @@ namespace WPFTravel.Forme
             {
                 konekcija.Open();
 
-                int idPrevoz = int.Parse(txtIdPrevoz.Text);
+                //int idPrevoz = int.Parse(txtIdPrevoz.Text);
                 string vrstaPrevoza = txtVrstaPrevoza.Text;
 
                 string sacuvajPrevoz;
 
                 if (azuriraj)
                 {
-                    sacuvajPrevoz = "UPDATE VrstaPrevoza SET Vrsta = @VrstaPrevoza WHERE Id_prevoz = @IdPrevoz";
+                    sacuvajPrevoz = "UPDATE Prevoz SET Vrsta = @VrstaPrevoza WHERE Id_prevoz = @IdPrevoz";
+                    SqlCommand cmd = new SqlCommand(sacuvajPrevoz, konekcija);
+                    cmd.Parameters.AddWithValue("@IdPrevoz", (int)pomocniRed["Id_prevoz"]);
+                    cmd.Parameters.AddWithValue("@VrstaPrevoza", vrstaPrevoza);
+                    cmd.ExecuteNonQuery();
                 }
                 else
                 {
-                    sacuvajPrevoz = "INSERT INTO VrstaPrevoza (Id_prevoz, Vrsta) VALUES (@IdPrevoz, @VrstaPrevoza)";
+                    sacuvajPrevoz = "INSERT INTO Prevoz (Vrsta) VALUES (@VrstaPrevoza)";
+                    SqlCommand cmd = new SqlCommand(sacuvajPrevoz, konekcija);
+                    cmd.Parameters.AddWithValue("@VrstaPrevoza", vrstaPrevoza);
+                    cmd.ExecuteNonQuery();
                 }
 
-                SqlCommand cmd = new SqlCommand(sacuvajPrevoz, konekcija);
-                cmd.Parameters.AddWithValue("@IdPrevoz", idPrevoz);
-                cmd.Parameters.AddWithValue("@VrstaPrevoza", vrstaPrevoza);
-                cmd.ExecuteNonQuery();
 
                 MessageBox.Show("Podaci su uspešno sačuvani.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();

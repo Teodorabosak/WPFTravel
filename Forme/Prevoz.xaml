@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="Dodaj/Izmeni Prevoz" Height="200" Width="350">
     <Grid>
-        <Label Content="ID Prevoza:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        
         <Label Content="Vrsta Prevoza:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdPrevoz" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        
         <TextBox x:Name="txtVrstaPrevoza" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
         <Button x:Name="btnSacuvaj" Click="btnSacuvaj_Click" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="100"/>

@@ -7,27 +7,84 @@
         mc:Ignorable="d"
         Title="Rezervacija putovanja" Height="350" Width="900">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="slike/pozadina.jpg" Stretch="UniformToFill"/>
+           
+        </Grid.Background>
         <!-- Ispisani podaci iz baze-->
         <DataGrid Name="dataGridCentralni" HorizontalAlignment="Center" VerticalAlignment="Center" Height="auto" Width="auto" IsReadOnly="True"
-                  AlternatingRowBackground="PeachPuff" CanUserAddRows="False" SelectionUnit="FullRow" SelectionMode="Single"/>
+                  AlternatingRowBackground="LightPink" CanUserAddRows="False" SelectionUnit="FullRow" BorderThickness="3"  BorderBrush="White" SelectionMode="Single"/>
 
         <!-- StackPanel za smestanje tih podataka -->
-        <StackPanel HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="auto" Orientation="Horizontal">
+        <StackPanel  HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="auto"  Orientation="Horizontal">
             <Button x:Name="btnPutovanja" Click="BtnPutovanja" Content="Putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="btnTipoviPutovanja" Click="BtnTipoviPutovanja" Content="Tipovi putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="btnPutnaOsiguranja" Click="BtnPutnaOsiguranja" Content="Putna osiguranja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="btnTipoviPutovanja" Click="BtnTipoviPutovanja" Content="Kategorije putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="btnPutnaOsiguranja" Click="BtnPutnaOsiguranja" Content="Osiguranje" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
             <Button x:Name="btnRezervacije" Click="BtnRezervacije" Content="Rezervacije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="100"/>
             <Button x:Name="btnPrevoz" Click="BtnPrevoz" Content="Prevoz" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
             <Button x:Name="btnKorisnici" Click="BtnKorisnici" Content="Korisnici" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
             <Button x:Name="btnZaposleni" Click="BtnZaposleni" Content="Zaposleni" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="btnKomentar" Click="BtnKomentar" Content="Komentar" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnKomentar" Click="BtnKomentar" Content="Recenzije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
         </StackPanel>
 
         <!--crud operacije  -->
-        <StackPanel HorizontalAlignment="Center" Height="30" VerticalAlignment="Bottom" Width="360" Orientation="Horizontal">
-            <Button x:Name="btnDodaj" Click="BtnDodaj" Content="Dodaj" Width="120"/> 
-            <Button x:Name="btnIzmeni" Click="btnIzmeni_Click" Content="Izmeni" Width="120" />
-            <Button x:Name="btnObrisi" Click="BtnObrisi" Content="Obriši" Width="120" />
+        <StackPanel  HorizontalAlignment="Center" Height="30" VerticalAlignment="Bottom" Width="360" Orientation="Horizontal">
+            <Button x:Name="btnDodaj" Click="BtnDodaj" Content="Dodaj" Width="100">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White"/>
+                        <!-- Boja dugmeta -->
+                        <Setter Property="Foreground" Value="Black"/>
+                        <!-- Boja teksta -->
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        
+                        <Setter Property="Margin" Value="5"/>
+                        <!-- Margina oko dugmeta -->
+                        <!-- Promena boje kada je kursor iznad dugmeta -->
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightPink"/>
+                                <!-- Boja kada je kursor iznad dugmeta -->
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- Ostala dugmad sa istim stilom -->
+            <Button x:Name="btnIzmeni" Click="btnIzmeni_Click" Content="Izmeni" Width="100">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightPink"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button x:Name="btnObrisi" Click="BtnObrisi" Content="Obriši" Width="100">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightPink"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

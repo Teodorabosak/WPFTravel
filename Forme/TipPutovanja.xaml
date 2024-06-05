@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFTravel.Forme"
         mc:Ignorable="d"
-        Title="Dodaj/Izmeni Tip Putovanja" Height="200" Width="300">
+        Title="Dodaj/Izmeni Tip Putovanja" Height="200" Width="400">
     <Grid>
         
         <Label Content="Naziv:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtNaziv" HorizontalAlignment="Left" Height="23" Margin="150,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtNaziv" HorizontalAlignment="Left" Height="23" Margin="150,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
         <Button x:Name="btnSacuvaj" Click="BtnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="100"/>
         <Button x:Name="btnOtkazi" Click="BtnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="200,100,0,0" VerticalAlignment="Top" Width="100"/>

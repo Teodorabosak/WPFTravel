@@ -7,19 +7,19 @@
         mc:Ignorable="d"
         Title="Dodaj/Izmeni Putno Osiguranje" Height="300" Width="350">
     <Grid Margin="0,0,0,-31">
-        <Label Content="ID Osiguranja:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        
         <Label Content="Iznos Osiguranja:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
         <Label Content="Početak:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
         <Label Content="Kraj:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
-        <Label Content="ID Rezervacije:" HorizontalAlignment="Left" Margin="30,140,0,0" VerticalAlignment="Top"/>
+        <Label Content="Broj rezervacije:" HorizontalAlignment="Left" Margin="30,140,0,0" VerticalAlignment="Top"/>
         <Label Content="ID Zaposlenog:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdOsig" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        
         <TextBox x:Name="txtIznosO" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <DatePicker x:Name="dpPocetak" HorizontalAlignment="Left" Margin="180,80,0,0" VerticalAlignment="Top" Width="120"/>
         <DatePicker x:Name="dpKraj" HorizontalAlignment="Left" Margin="180,110,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="txtIdRez" HorizontalAlignment="Left" Height="23" Margin="180,140,0,0" DisplayMemberPath="Destinacija" SelectedValuePath="Id_putovanja" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="txtIdZ" HorizontalAlignment="Left" Height="23" Margin="180,170,0,0" DisplayMemberPath="id_korisnik" SelectedValuePath="Id_korisnik" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="txtIdRez" HorizontalAlignment="Left" Height="23" Margin="180,140,0,0" DisplayMemberPath="id_korisnik" SelectedValuePath="Id_rez" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="txtIdZ" HorizontalAlignment="Left" Height="23" Margin="180,170,0,0" DisplayMemberPath="Username" SelectedValuePath="Id_z" VerticalAlignment="Top" Width="120"/>
 
         <Button x:Name="btnSacuvaj" Click="BtnSacuvaj_Click" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,220,0,0" VerticalAlignment="Top" Width="100"/>
         <Button x:Name="btnOtkazi" Click="BtnOtkazi_Click" Content="Otkaži" HorizontalAlignment="Left" Margin="200,220,0,0" VerticalAlignment="Top" Width="100"/>

@@ -20,20 +20,29 @@ namespace WPFTravel.Forme
         {
             InitializeComponent();
             txtNaziv.Focus();
+            konekcija = kon.KreirajKonekciju();
+
         }
 
         public TipPutovanja(bool azuriraj, DataRowView pomocniRed)
         {
             InitializeComponent();
             txtNaziv.Focus();
+
+            konekcija = kon.KreirajKonekciju();
             this.azuriraj = azuriraj;
             this.pomocniRed = pomocniRed;
 
-            konekcija = kon.KreirajKonekciju();
-
             if (azuriraj)
             {
-                txtNaziv.Text = pomocniRed["Naziv"].ToString();
+                if (pomocniRed != null)
+                {
+                    txtNaziv.Text = pomocniRed["Naziv"].ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Podaci nisu dostupni za ažuriranje.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -48,23 +57,23 @@ namespace WPFTravel.Forme
 
                 if (azuriraj)
                 {
-                    sacuvajTipPutovanja = "UPDATE TipPutovanja SET Naziv = @Naziv WHERE Id = @Id";
+                    sacuvajTipPutovanja = "UPDATE Tip_putovanja SET Naziv = @Naziv WHERE Id_tip = @Id_tip";
+                    SqlCommand cmd = new SqlCommand(sacuvajTipPutovanja, konekcija);
+                    cmd.Parameters.AddWithValue("@Id_tip", (int)pomocniRed["Id_tip"]);
+                    cmd.Parameters.AddWithValue("@Naziv", naziv); 
+                    cmd.ExecuteNonQuery();
                 }
+
                 else
                 {
-                    sacuvajTipPutovanja = "INSERT INTO TipPutovanja (Naziv) VALUES (@Naziv)";
+                    sacuvajTipPutovanja = "INSERT INTO Tip_Putovanja (Naziv) VALUES (@Naziv)";
+                    SqlCommand cmd = new SqlCommand(sacuvajTipPutovanja, konekcija);
+                    cmd.Parameters.AddWithValue("@Naziv", naziv); 
+
+                    cmd.ExecuteNonQuery();
                 }
-
-                SqlCommand cmd = new SqlCommand(sacuvajTipPutovanja, konekcija);
-                cmd.Parameters.AddWithValue("@Naziv", naziv);
-
-                if (azuriraj)
-                {
-                    cmd.Parameters.AddWithValue("@Id", pomocniRed["Id"]);
-                }
-
-                cmd.ExecuteNonQuery();
-
+                
+                
                 MessageBox.Show("Podaci su uspešno sačuvani.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
             }

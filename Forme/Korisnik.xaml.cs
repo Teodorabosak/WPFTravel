@@ -46,14 +46,31 @@ namespace WPFTravel.Forme
 
 			if (azuriraj)
 			{
-				txtBrTel.Text = pomocniRed["Br_Tel"].ToString();
-				txtAdresa.Text = pomocniRed["Adresa"].ToString();
-				txtIme.Text = pomocniRed["Ime"].ToString();
-				txtPrezime.Text = pomocniRed["Prezime"].ToString();
-				txtUsername.Text = pomocniRed["Username"].ToString();
-				txtPassword.Password = pomocniRed["Password"].ToString();
-				dpDatumRodj.SelectedDate = Convert.ToDateTime(pomocniRed["Datum_rodj"]);
-			}
+                if (pomocniRed != null)
+                {
+                    // Check if the expected columns are present
+                    if (pomocniRed.DataView.Table.Columns.Contains("Br_Tel"))
+                        txtBrTel.Text = pomocniRed["Br_Tel"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Adresa"))
+                        txtAdresa.Text = pomocniRed["Adresa"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Email"))
+                        txtEmail.Text = pomocniRed["Email"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Ime"))
+                        txtIme.Text = pomocniRed["Ime"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Prezime"))
+                        txtPrezime.Text = pomocniRed["Prezime"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Username"))
+                        txtUsername.Text = pomocniRed["Username"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Password"))
+                        txtPassword.Password = pomocniRed["Password"].ToString();
+                    if (pomocniRed.DataView.Table.Columns.Contains("Datum_rodj"))
+                        dpDatumRodj.SelectedDate = Convert.ToDateTime(pomocniRed["Datum_rodj"]);
+                }
+                else
+                {
+                    MessageBox.Show("Podaci nisu dostupni za ažuriranje.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
 
 			konekcija = kon.KreirajKonekciju();
 
@@ -62,7 +79,58 @@ namespace WPFTravel.Forme
 		private void BtnSacuvaj(object sender, RoutedEventArgs e) //sacuvaj
 		{
 
-		}
+            if (string.IsNullOrEmpty(txtBrTel.Text) ||
+                string.IsNullOrEmpty(txtAdresa.Text) ||
+                string.IsNullOrEmpty(txtIme.Text) ||
+                string.IsNullOrEmpty(txtEmail.Text) ||
+                string.IsNullOrEmpty(txtPrezime.Text) ||
+                string.IsNullOrEmpty(txtPassword.Password) ||
+                string.IsNullOrEmpty(txtUsername.Text) ||
+                dpDatumRodj.SelectedDate == null)
+            {
+                MessageBox.Show("Sva polja moraju biti popunjena!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                konekcija.Open();
+                SqlCommand komanda = new SqlCommand();
+                komanda.Connection = konekcija;
+
+                if (azuriraj)
+                {
+                    komanda.CommandText = "UPDATE Korisnik SET Br_tel = @BrTel, Adresa = @Adresa, Ime = @Ime, Email = @Email, Prezime = @Prezime, Password = @Password, Username = @Username, Datum_rodj = @DatumRodj WHERE Id_korisnik = @IdKorisnik";
+                    komanda.Parameters.AddWithValue("@IdKorisnik", (int)pomocniRed["Id_korisnik"]);
+                }
+                else
+                {
+                    komanda.CommandText = "INSERT INTO Korisnik (Br_tel, Adresa, Ime, Email, Prezime, Password, Username, Datum_rodj) VALUES (@BrTel, @Adresa, @Ime, @Email, @Prezime, @Password, @Username, @DatumRodj)";
+                }
+
+                komanda.Parameters.AddWithValue("@BrTel", txtBrTel.Text);
+                komanda.Parameters.AddWithValue("@Adresa", txtAdresa.Text);
+                komanda.Parameters.AddWithValue("@Ime", txtIme.Text);
+                komanda.Parameters.AddWithValue("@Email", txtEmail.Text);
+                komanda.Parameters.AddWithValue("@Prezime", txtPrezime.Text);
+                komanda.Parameters.AddWithValue("@Password", txtPassword.Password);
+                komanda.Parameters.AddWithValue("@Username", txtUsername.Text);
+                komanda.Parameters.AddWithValue("@DatumRodj", dpDatumRodj.SelectedDate.Value);
+
+                komanda.ExecuteNonQuery();
+                MessageBox.Show("Podaci su uspešno sačuvani!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Došlo je do greške: " + ex.Message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                konekcija.Close();
+            }
+        }
 
 		private void BtnOtkazi(object sender, RoutedEventArgs e) //otkazi
 		{

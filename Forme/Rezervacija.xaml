@@ -7,17 +7,17 @@
         mc:Ignorable="d"
         Title="Dodaj/Izmeni Rezervaciju" Height="350" Width="350">
     <Grid>
-        <Label Content="ID Rezervacije:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        
         <Label Content="Destinacija:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
         <Label Content="Datum Rezervacije:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
         <Label Content="ID Korisnika:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
         <Label Content="Otkazano:" HorizontalAlignment="Left" Margin="30,140,0,0" VerticalAlignment="Top"/>
         <Label Content="Broj Aranžmana:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdRez" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        
         <ComboBox x:Name="cbPutovanje" HorizontalAlignment="Left" Margin="180,50,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Destinacija" SelectedValuePath="Id_putovanja"/>
         <DatePicker x:Name="dpDatumR" HorizontalAlignment="Left" Margin="180,80,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="cbKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,110,0,0" DisplayMemberPath="Id_korisnik"  SelectedValuePath="Id_korisnik" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,110,0,0" DisplayMemberPath="Username"  SelectedValuePath="Id_korisnik" VerticalAlignment="Top" Width="120"/>
 
         <CheckBox x:Name="chkOtkaz" HorizontalAlignment="Left" Margin="231,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.125,0.2"/>
         <TextBox x:Name="txtBrojAranzmana" HorizontalAlignment="Left" Height="23" Margin="180,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>

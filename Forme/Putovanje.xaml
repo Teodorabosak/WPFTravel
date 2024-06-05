@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Dodaj/Izmeni Putovanje" Height="350" Width="350">
     <Grid>
-        <Label Content="ID Putovanja:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
+        
         <Label Content="Datum:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
         <Label Content="Destinacija:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
         <Label Content="Cena:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
@@ -15,7 +15,7 @@
         <Label Content="Tip Putovanja:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
         <Label Content="Vrsta Prevoza:" HorizontalAlignment="Left" Margin="30,200,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdPutovanja" HorizontalAlignment="Left" Height="23" Margin="150,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
+        
         <DatePicker x:Name="dpDatum" HorizontalAlignment="Left" Margin="150,50,0,0" VerticalAlignment="Top" Width="150"/>
         <TextBox x:Name="txtDestinacija" HorizontalAlignment="Left" Height="23" Margin="150,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
         <TextBox x:Name="txtCena" HorizontalAlignment="Left" Height="23" Margin="150,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>

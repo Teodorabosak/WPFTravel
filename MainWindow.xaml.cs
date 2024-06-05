@@ -34,62 +34,80 @@ namespace WPFTravel
 
 		#region Select Upiti
 
-		string korisniciSelect = @"select br_tel, adresa, ime, email, prezime, password, username, datum_rodj from Korisnik ";
+		string korisniciSelect = @"select id_korisnik as Sifra,  ime as Ime, prezime as Prezime, br_tel as Telefon, adresa as Adresa,  email as Email,  password as Password, username as Username, datum_rodj as 'Datum rodjenja' from Korisnik ";
 
-		string komentarSelect = @"select id_kom, id_korisnik, ocena, komentar from komentar";
+		string komentarSelect = @"SELECT id_kom, k.Username, ko.Ocena, ko.Komentar
+								FROM Komentar ko
+								INNER JOIN Korisnik k ON ko.Id_korisnik = k.Id_korisnik;
+								";
 
-		string prevozSelect = @"select id_prevoz, vrsta from prevoz";
+		string prevozSelect = @"select id_prevoz as Sifra,  vrsta as Vrsta from prevoz";
 
-		string putnoOsiguranjeSelect = @"select id_osig, iznos_o, pocetak, kraj, id_rez, id_z from Putno_osiguranje ";
+		string putnoOsiguranjeSelect = @"SELECT id_osig as Sifra, 
+										po.iznos_o as Iznos,
+										po.pocetak as Pocetak,
+										po.kraj as Kraj,
+										po.id_rez as [Broj rezervacije],
+										z.Username as Username
+									FROM Putno_osiguranje po
+									JOIN Zaposleni z ON po.id_z = z.Id_z;
+									";
 
-		string putovanjaSelect = @"select id_putovanja, datum, destinacija, cena, opis, id_tip, id_prevoz from putovanje";
+		string putovanjaSelect = @"SELECT id_putovanja as Sifra, p.Datum as Polazak, p.Destinacija, p.Cena, p.Opis, tp.Naziv AS Kategorija, pr.Vrsta AS Prevoz
+								FROM Putovanje p
+								INNER JOIN Tip_putovanja tp ON p.Id_tip = tp.Id_tip
+								INNER JOIN Prevoz pr ON p.Id_prevoz = pr.Id_prevoz
+								";
 
-		string rezervacijaSelect = @"SELECT Id_rez
-								  ,Id_putovanja
-								  ,Datum_r
-								  ,Id_korisnik
-								  ,Otkaz
-								  ,Broj_aranzmana
-								   FROM Rezervacija";
+		string rezervacijaSelect = @"SELECT id_rez as Sifra,
+									p.Destinacija as Destinacija,
+									r.Datum_r as 'Datum rodjenja',
+									k.Username as Username,
+									r.Otkaz as Otkaz,
+									r.Broj_aranzmana as 'Broj osoba'
+								FROM Rezervacija r
+								JOIN Putovanje p ON r.Id_putovanja = p.Id_putovanja
+								JOIN Korisnik k ON r.Id_korisnik = k.Id_korisnik;
+";
 
-		string tipPutovanjaSelect = @"SELECT Id_tip
-									,Naziv
+		string tipPutovanjaSelect = @"SELECT id_tip as Sifra,
+									Naziv
 									FROM Tip_putovanja
 									";
 
-		string zaposleniSelect = @"SELECT  Id_z,
-								  Ime_z,
-								  Prez_z,
+		string zaposleniSelect = @"SELECT  id_z as Sifra,
+								  Ime_z as Ime,
+								  Prez_z as Prezime,
 								  Email,
 								  Password,
 								  Username
 								  FROM Zaposleni
 								  ";
-		//string rezJoin = @""
+		
 		#endregion
 
 		#region Select upiti sa uslovom
 
-		string UpdateKorisnik = @"select * from korisnik where id_korisnik=";
-		string UpdateKomentar = @"select * from komentar where id_kom=";
-		string UpdatePrevoz = @"select * from prevoz where id_prevoz=";
-		string UpdatePutnoOsiguranje = @"select * from putno_osiguranje where id_osig=";
-		string UpdatePutovanje = @"select * from putovanje where id_putovanja=";
-		string UpdateRezervacija = @"select * from rezervacija where id_rez=";
-		string UpdateTipPutovanja = @"select * from tip_putovanja where id_tip=";
-		string UpdateZaposleni = @"select * from zaposleni  where id_z=";
+		string UpdateKorisnik = @"select * from korisnik where id_korisnik= @Id";
+		string UpdateKomentar = @"select * from komentar where id_kom=  @Id";
+		string UpdatePrevoz = @"select * from prevoz where id_prevoz= @Id";
+		string UpdatePutnoOsiguranje = @"select * from putno_osiguranje where id_osig= @Id";
+		string UpdatePutovanje = @"select * from putovanje where id_putovanja= @Id";
+		string UpdateRezervacija = @"select * from rezervacija where id_rez= @Id";
+		string UpdateTipPutovanja = @"select * from tip_putovanja where id_tip= @Id";
+		string UpdateZaposleni = @"select * from zaposleni  where id_z= @Id";
 
 		#endregion
 
 		#region Delete upiti
-		string korisniciDelete = @" delete from korisnik where id_korisnik= ";
-		string komentarDelete = @" delete  from komentar where id_kom= ";
-		string prevozDelete = @" delete from prevoz where id_prevoz= ";
-		string deletePO = @" delete from putno_osiguranje where id_osig=";
-		string putovanjeDelete = @" delete  from putovanje where id_putovanja=";
-		string deleteRez = @" delete from rezervacija where id_rez=";
-		string deleteTP = @" delete from tip_putovanja where id_tip=";
-		string deleteZap = @" delete from zaposleni  where id_z= ";
+		string korisniciDelete = @" delete from korisnik where id_korisnik= @Id ";
+		string komentarDelete = @" delete  from komentar where id_kom=  @Id ";
+		string prevozDelete = @" delete from prevoz where id_prevoz=  @Id";
+		string deletePO = @" delete from putno_osiguranje where id_osig= @Id";
+		string putovanjeDelete = @" delete  from putovanje where id_putovanja= @Id";
+		string deleteRez = @" delete from rezervacija where id_rez= @Id";
+		string deleteTP = @" delete from tip_putovanja where id_tip= @Id";
+		string deleteZap = @" delete from zaposleni  where id_z= @Id ";
 		#endregion
 
 		public MainWindow()
@@ -225,7 +243,7 @@ namespace WPFTravel
 		}
 		// UPDATE
 
-		void PopuniFormu(DataGrid grid, string selectUslov, string idColumnName)
+		void PopuniFormu(DataGrid grid, string selectUslov)
 		{
 			if (grid.SelectedItems.Count == 0)
 			{
@@ -236,70 +254,141 @@ namespace WPFTravel
 			try
 			{
 				konekcija.Open();
+				azuriraj = true;
 				DataRowView red = (DataRowView)grid.SelectedItems[0];
-				int id = Convert.ToInt32(red[idColumnName]);
+				pomocniRed = red;
 
-				using (SqlCommand komanda = new SqlCommand(selectUslov, konekcija))
+				// Debug: Check the columns in the DataRowView
+				Console.WriteLine("Columns in DataRowView:");
+				foreach (DataColumn column in red.DataView.Table.Columns)
 				{
-					komanda.Parameters.Add("@Id", SqlDbType.Int).Value = id;
-					using (SqlDataReader citac = komanda.ExecuteReader())
-					{
-						if (citac.Read())
-						{
-							if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal))
-							{
-								Korisnik prozorKor = new Korisnik(azuriraj, pomocniRed);
-								prozorKor.txtBrTel.Text = citac["br_tel"].ToString();
-								prozorKor.txtAdresa.Text = citac["adresa"].ToString();
-								prozorKor.txtIme.Text = citac["ime"].ToString();
-								prozorKor.txtPrezime.Text = citac["prezime"].ToString();
-								prozorKor.txtUsername.Text = citac["username"].ToString();
-								prozorKor.txtPassword.Password = citac["password"].ToString();
-								prozorKor.dpDatumRodj.Text = citac["datum_rodj"].ToString();
-							}
-							else if (ucitanaTabela.Equals(rezervacijaSelect, StringComparison.Ordinal))
-							{
-								Rezervacija prozorRez = new Rezervacija(azuriraj, pomocniRed);
-								prozorRez.txtIdRez.Text = citac["Id_rez"].ToString();
-								prozorRez.cbPutovanje.SelectedValue = citac["Id_putovanja"];
-								prozorRez.dpDatumR.SelectedDate = Convert.ToDateTime(citac["Datum_r"]);
-								prozorRez.cbKorisnik.SelectedValue = citac["Id_korisnik"];
-								prozorRez.chkOtkaz.IsChecked = (bool)citac["Otkaz"];
-								prozorRez.txtBrojAranzmana.Text = citac["Broj_aranzmana"].ToString();
-							}
-							else if (ucitanaTabela.Equals(prevozSelect, StringComparison.Ordinal))
-							{
-								Prevoz prozorPR = new Prevoz(azuriraj, pomocniRed);
-								// Popunite potrebne vrednosti za prevoz
-							}
-							else if (ucitanaTabela.Equals(tipPutovanjaSelect, StringComparison.Ordinal))
-							{
-								TipPutovanja prozorTP = new TipPutovanja(azuriraj, pomocniRed);
-								// Popunite potrebne vrednosti za tip putovanja
-							}
-							else if (ucitanaTabela.Equals(zaposleniSelect, StringComparison.Ordinal))
-							{
-								Zaposleni prozorZap = new Zaposleni(azuriraj, pomocniRed);
-								// Popunite potrebne vrednosti za zaposleni
-							}
-							else if (ucitanaTabela.Equals(komentarSelect, StringComparison.Ordinal))
-							{
-								Komentar prozorKom = new Komentar(azuriraj, pomocniRed);
-								// Popunite potrebne vrednosti za komentar
-							}
-							else if (ucitanaTabela.Equals(putnoOsiguranjeSelect, StringComparison.Ordinal))
-							{
-								PutnoOsiguranje prozorPO = new PutnoOsiguranje(azuriraj, pomocniRed);
-								// Popunite potrebne vrednosti za putno osiguranje
-							}
-							else if (ucitanaTabela.Equals(putovanjaSelect, StringComparison.Ordinal))
-							{
-								Putovanje prozorPut = new Putovanje(azuriraj, pomocniRed);
-								// Popunite potrebne vrednosti za putovanje
-							}
-						}
-					}
+					Console.WriteLine(column.ColumnName);
 				}
+
+
+				string idColumnName = GetIdColumnName();
+				if (!red.DataView.Table.Columns.Contains(idColumnName))
+				{
+					MessageBox.Show($"Column '{idColumnName}' not found in DataTable!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+
+				SqlCommand komanda = new SqlCommand(selectUslov, konekcija);
+				komanda.Parameters.AddWithValue("@id", red[idColumnName]);
+				SqlDataReader citac = komanda.ExecuteReader();
+
+				
+
+				
+
+
+				while (citac.Read())
+					{
+						if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal))
+						{
+							Korisnik prozorKor = new Korisnik(azuriraj, pomocniRed);
+							prozorKor.txtBrTel.Text = citac["br_tel"].ToString();
+							prozorKor.txtAdresa.Text = citac["adresa"].ToString();
+							prozorKor.txtIme.Text = citac["ime"].ToString();
+							prozorKor.txtPrezime.Text = citac["prezime"].ToString();
+							prozorKor.txtUsername.Text = citac["username"].ToString();
+							prozorKor.txtPassword.Password = citac["password"].ToString();
+							prozorKor.dpDatumRodj.Text = citac["datum_rodj"].ToString();
+
+						prozorKor.ShowDialog();
+					}
+						else if (ucitanaTabela.Equals(rezervacijaSelect, StringComparison.Ordinal))
+						{
+							Rezervacija prozorRez = new Rezervacija(azuriraj, pomocniRed);
+							//prozorRez.txtIdRez.Text = citac["Id_rez"].ToString();
+							prozorRez.cbPutovanje.SelectedValue = citac["Id_putovanja"];
+							prozorRez.dpDatumR.SelectedDate = Convert.ToDateTime(citac["Datum_r"]);
+							prozorRez.cbKorisnik.SelectedValue = citac["Id_korisnik"];
+							if (citac["Otkaz"] != DBNull.Value && citac["Otkaz"] is bool)
+							{
+								prozorRez.chkOtkaz.IsChecked = (bool)citac["Otkaz"];
+							}
+							else
+							{
+								prozorRez.chkOtkaz.IsChecked = false;
+							}
+
+							prozorRez.txtBrojAranzmana.Text = citac["Broj_aranzmana"].ToString();
+
+						prozorRez.ShowDialog();
+					}
+						else if (ucitanaTabela.Equals(prevozSelect, StringComparison.Ordinal))
+						{
+							Prevoz prozorPR = new Prevoz(azuriraj, pomocniRed);
+							prozorPR.txtVrstaPrevoza.Text = citac["vrsta"].ToString();
+
+						prozorPR.ShowDialog();
+						}
+						else if (ucitanaTabela.Equals(tipPutovanjaSelect, StringComparison.Ordinal))
+						{
+							TipPutovanja prozorTP = new TipPutovanja(azuriraj, pomocniRed);
+						prozorTP.txtNaziv.Text = citac["naziv"].ToString();
+						
+						prozorTP.ShowDialog();
+
+						}
+						else if (ucitanaTabela.Equals(zaposleniSelect, StringComparison.Ordinal))
+						{
+							Zaposleni prozorZap = new Zaposleni(azuriraj, pomocniRed);
+
+							prozorZap.txtEmail.Text = citac["Email"].ToString(); //naziv iz sql
+							prozorZap.txtIme.Text = citac["ime_z"].ToString();
+							prozorZap.txtPrezime.Text = citac["prez_z"].ToString();
+							prozorZap.txtUsername.Text = citac["username"].ToString();
+							prozorZap.txtPassword.Password = citac["password"].ToString();
+
+
+						prozorZap.ShowDialog();
+
+					}
+						else if (ucitanaTabela.Equals(komentarSelect, StringComparison.Ordinal))
+						{
+							Komentar prozorKom = new Komentar(azuriraj, pomocniRed);
+
+						prozorKom.txtKomentar.Text = citac["komentar"].ToString();
+						prozorKom.txtOcena.Text = citac["ocena"].ToString();
+						prozorKom.cbKorisnik.SelectedValue = citac["Id_korisnik"].ToString();
+
+
+						prozorKom.ShowDialog();
+					}
+						else if (ucitanaTabela.Equals(putnoOsiguranjeSelect, StringComparison.Ordinal))
+						{
+							PutnoOsiguranje prozorPO = new PutnoOsiguranje(azuriraj, pomocniRed);
+
+						prozorPO.txtIznosO.Text = citac["Iznos_O"].ToString();
+						prozorPO.dpPocetak.SelectedDate = Convert.ToDateTime(citac["Pocetak"]);
+						prozorPO.dpKraj.SelectedDate = Convert.ToDateTime(citac["Kraj"]);
+						prozorPO.txtIdRez.SelectedValue = citac["Id_rez"].ToString();
+						prozorPO.txtIdZ.SelectedValue = citac["Id_z"].ToString();
+
+						prozorPO.ShowDialog();
+					}
+				
+						else if (ucitanaTabela.Equals(putovanjaSelect, StringComparison.Ordinal))
+						{
+							Putovanje prozorPut = new Putovanje(azuriraj, pomocniRed);
+
+						prozorPut.dpDatum.SelectedDate = Convert.ToDateTime(citac["Datum"]);
+						prozorPut.txtDestinacija.Text= citac["Destinacija"].ToString();
+						prozorPut.txtOpis.Text = citac["Opis"].ToString();
+						prozorPut.txtCena.Text = citac["Cena"].ToString();
+						prozorPut.cbTipPutovanja.SelectedValue = citac["Id_putovanja"].ToString();
+						prozorPut.cbVrstaPrevoza.SelectedValue = citac["Id_prevoz"].ToString();
+
+						prozorPut.ShowDialog();
+						
+						}
+				}
+					
+
+				citac.Close();
 			}
 			catch (ArgumentOutOfRangeException)
 			{
@@ -315,9 +404,11 @@ namespace WPFTravel
 				{
 					konekcija.Close();
 				}
-			}
-		}
 
+				azuriraj = false;
+			}
+
+		}
 
 
 
@@ -414,47 +505,60 @@ namespace WPFTravel
 			}
 		}
 
+		string GetIdColumnName()
+		{
+			if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal)) return "id_korisnik";
+			if (ucitanaTabela.Equals(rezervacijaSelect, StringComparison.Ordinal)) return "Id_rez";
+			if (ucitanaTabela.Equals(prevozSelect, StringComparison.Ordinal)) return "id_prevoz";
+			if (ucitanaTabela.Equals(tipPutovanjaSelect, StringComparison.Ordinal)) return "id_tip";
+			if (ucitanaTabela.Equals(zaposleniSelect, StringComparison.Ordinal)) return "id_z";
+			if (ucitanaTabela.Equals(komentarSelect, StringComparison.Ordinal)) return "id_kom";
+			if (ucitanaTabela.Equals(putnoOsiguranjeSelect, StringComparison.Ordinal)) return "id_osig";
+			if (ucitanaTabela.Equals(putovanjaSelect, StringComparison.Ordinal)) return "id_putovanja";
+			return "ID"; // Default case, assuming there's a column named "ID" as a fallback
+		}
+
 		private void btnIzmeni_Click(object sender, RoutedEventArgs e)
 		{
 			if (ucitanaTabela.Equals(korisniciSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdateKorisnik, "id_korisnik");
+				PopuniFormu(dataGridCentralni, UpdateKorisnik);
 				UcitajPodatke(dataGridCentralni, korisniciSelect);
 
 			}
 			else if (ucitanaTabela.Equals(rezervacijaSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdateRezervacija, "id_rez");
+				PopuniFormu(dataGridCentralni, UpdateRezervacija);
 				UcitajPodatke(dataGridCentralni, rezervacijaSelect);
 			}
 			else if (ucitanaTabela.Equals(putovanjaSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdatePutovanje, "id_putovanje");
+				PopuniFormu(dataGridCentralni, UpdatePutovanje);
 				UcitajPodatke(dataGridCentralni, putovanjaSelect);
 			}
 			else if (ucitanaTabela.Equals(komentarSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdateKomentar, "id_kom");
+				PopuniFormu(dataGridCentralni, UpdateKomentar);
 				UcitajPodatke(dataGridCentralni, komentarSelect);
 			}
 			else if (ucitanaTabela.Equals(zaposleniSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdateZaposleni, "id_z");
+				PopuniFormu(dataGridCentralni, UpdateZaposleni);
 				UcitajPodatke(dataGridCentralni, zaposleniSelect);
 			}
 			else if (ucitanaTabela.Equals(tipPutovanjaSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdateTipPutovanja, "id_tip");
+				PopuniFormu(dataGridCentralni, UpdateTipPutovanja);
 				UcitajPodatke(dataGridCentralni, tipPutovanjaSelect);
 			}
 			else if (ucitanaTabela.Equals(prevozSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdatePrevoz, "id_prevoz");
+				PopuniFormu(dataGridCentralni, UpdatePrevoz);
 				UcitajPodatke(dataGridCentralni, prevozSelect);
 			}
 			else if (ucitanaTabela.Equals(putnoOsiguranjeSelect))
 			{
-				PopuniFormu(dataGridCentralni, UpdatePutnoOsiguranje,"id_osig");
+				PopuniFormu(dataGridCentralni, UpdatePutnoOsiguranje);
 				UcitajPodatke(dataGridCentralni, putnoOsiguranjeSelect);
 
 			}

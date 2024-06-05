@@ -7,17 +7,17 @@
         mc:Ignorable="d"
         Title="Dodaj Komentar" Height="300" Width="400">
     <Grid>
-        <Label Content="ID Komentara:" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top"/>
-        <Label Content="ID Korisnika:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
+        
+        <Label Content="Username Korisnika:" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top"/>
         <Label Content="Ocena:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
         <Label Content="Komentar:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
 
-        <TextBox x:Name="txtIdKomentara" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
-        <ComboBox x:Name="cbKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" DisplayMemberPath="id_korisnika" SelectedValuePath="username" VerticalAlignment="Top" Width="160"/>
+        
+        <ComboBox x:Name="cbKorisnik" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" DisplayMemberPath="Username" SelectedValuePath="Id_korisnik" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="txtOcena" HorizontalAlignment="Left" Height="23" Margin="180,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="txtKomentar" HorizontalAlignment="Left" Height="100" Margin="180,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"/>
 
-        <Button x:Name="btnSacuvaj" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="btnOtkazi" Content="Otkaži" HorizontalAlignment="Left" Margin="220,240,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnSacuvaj" Click="btnSacuvaj_Click" Content="Sačuvaj" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="btnOtkazi" Click="btnOtkazi_Click" Content="Otkaži" HorizontalAlignment="Left" Margin="220,240,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

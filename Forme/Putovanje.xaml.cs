@@ -33,16 +33,24 @@ namespace WPFTravel.Forme
             this.azuriraj = azuriraj;
             this.pomocniRed = pomocniRed;
 
-            if (azuriraj)
+            if (azuriraj && pomocniRed != null)
             {
-                txtIdPutovanja.Text = pomocniRed["Id_putovanja"].ToString();
-                dpDatum.SelectedDate = Convert.ToDateTime(pomocniRed["Datum"]);
-                txtDestinacija.Text = pomocniRed["Destinacija"].ToString();
-                txtCena.Text = pomocniRed["Cena"].ToString();
-                txtOpis.Text = pomocniRed["Opis"].ToString();
-                cbTipPutovanja.SelectedValue = pomocniRed["Id_tip"];
-                cbVrstaPrevoza.SelectedValue = pomocniRed["Id_prevoz"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Datum"))
+                    dpDatum.SelectedDate = (DateTime)pomocniRed["Datum"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Destinacija"))
+                    txtDestinacija.Text = pomocniRed["Destinacija"].ToString();
+                if (pomocniRed.DataView.Table.Columns.Contains("Cena"))
+                    txtCena.Text = pomocniRed["Cena"].ToString();
+                if (pomocniRed.DataView.Table.Columns.Contains("Opis"))
+                    txtOpis.Text = pomocniRed["Opis"].ToString();
+                if (pomocniRed.DataView.Table.Columns.Contains("Id_tip"))
+                    cbTipPutovanja.SelectedValue = pomocniRed["Id_tip"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Id_prevoz"))
+                    cbVrstaPrevoza.SelectedValue = pomocniRed["Id_prevoz"];
+
             }
+
+
         }
 
         private void PopuniPadajuceListe()
@@ -52,15 +60,17 @@ namespace WPFTravel.Forme
                 konekcija.Open();
 
                 // Fetching data for Tip Putovanja
-                string vratiTipPutovanja = @"SELECT Id_tip, Naziv FROM TipPutovanja";
+                string vratiTipPutovanja = @"SELECT Id_tip, Naziv FROM Tip_Putovanja";
                 DataTable dtTipPutovanja = new DataTable();
                 SqlDataAdapter daTipPutovanja = new SqlDataAdapter(vratiTipPutovanja, konekcija);
                 daTipPutovanja.Fill(dtTipPutovanja);
 
                 cbTipPutovanja.ItemsSource = dtTipPutovanja.DefaultView;
+                dtTipPutovanja.Dispose();
+                daTipPutovanja.Dispose();
 
                 // Fetching data for Vrsta Prevoza
-                string vratiVrstaPrevoza = @"SELECT Id_prevoz, Vrsta FROM VrstaPrevoza";
+                string vratiVrstaPrevoza = @"SELECT Id_prevoz, Vrsta FROM Prevoz";
                 DataTable dtVrstaPrevoza = new DataTable();
                 SqlDataAdapter daVrstaPrevoza = new SqlDataAdapter(vratiVrstaPrevoza, konekcija);
                 daVrstaPrevoza.Fill(dtVrstaPrevoza);
@@ -80,42 +90,49 @@ namespace WPFTravel.Forme
 
         private void btnSacuvaj_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                konekcija.Open();
+			try { 
+            konekcija.Open();
 
-                int idPutovanja = int.Parse(txtIdPutovanja.Text);
-                DateTime datum = dpDatum.SelectedDate.Value;
-                string destinacija = txtDestinacija.Text;
-                decimal cena = decimal.Parse(txtCena.Text);
-                string opis = txtOpis.Text;
-                int idTipPutovanja = (int)cbTipPutovanja.SelectedValue;
-                int idVrstaPrevoza = (int)cbVrstaPrevoza.SelectedValue;
+            DateTime datum = dpDatum.SelectedDate.Value;
+            string destinacija = txtDestinacija.Text;
+            decimal cena = decimal.Parse(txtCena.Text);
+            string opis = txtOpis.Text;
+            int idTipPutovanja = Convert.ToInt32(((DataRowView)cbTipPutovanja.SelectedItem)["Id_tip"]);
+            int idVrstaPrevoza = Convert.ToInt32(((DataRowView)cbVrstaPrevoza.SelectedItem)["Id_prevoz"]);
 
                 string sacuvajPutovanje;
 
-                if (azuriraj)
-                {
-                    sacuvajPutovanje = "UPDATE Putovanje SET Datum = @Datum, Destinacija = @Destinacija, Cena = @Cena, Opis = @Opis, Id_tip = @Id_tip, Id_prevoz = @Id_prevoz WHERE Id_putovanja = @Id_putovanja";
-                }
-                else
-                {
-                    sacuvajPutovanje = "INSERT INTO Putovanje (Id_putovanja, Datum, Destinacija, Cena, Opis, Id_tip, Id_prevoz) VALUES (@Id_putovanja, @Datum, @Destinacija, @Cena, @Opis, @Id_tip, @Id_prevoz)";
-                }
-
-                SqlCommand cmd = new SqlCommand(sacuvajPutovanje, konekcija);
-                cmd.Parameters.AddWithValue("@Id_putovanja", idPutovanja);
-                cmd.Parameters.AddWithValue("@Datum", datum);
-                cmd.Parameters.AddWithValue("@Destinacija", destinacija);
-                cmd.Parameters.AddWithValue("@Cena", cena);
-                cmd.Parameters.AddWithValue("@Opis", opis);
-                cmd.Parameters.AddWithValue("@Id_tip", idTipPutovanja);
-                cmd.Parameters.AddWithValue("@Id_prevoz", idVrstaPrevoza);
-                cmd.ExecuteNonQuery();
-
-                MessageBox.Show("Podaci su uspešno sačuvani.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+            if (azuriraj)
+            {
+                sacuvajPutovanje = "UPDATE Putovanje SET Datum = @Datum, Destinacija = @Destinacija, " +
+                        "Cena = @Cena, Opis = @Opis, Id_tip = @Id_tip, Id_prevoz = @Id_prevoz " +
+                        "WHERE Id_putovanja = @Id_putovanja";
             }
+            else
+            {
+                sacuvajPutovanje = "INSERT INTO Putovanje (Datum, Destinacija, Cena, Opis, Id_tip, Id_prevoz) " +
+                        "VALUES (@Datum, @Destinacija, @Cena, @Opis, @Id_tip, @Id_prevoz)";
+            }
+
+            SqlCommand cmd = new SqlCommand(sacuvajPutovanje, konekcija);
+
+            if (azuriraj)
+            {
+                cmd.Parameters.AddWithValue("@Id_putovanja", pomocniRed["Id_putovanja"]);
+            }
+
+            cmd.Parameters.AddWithValue("@Datum", datum);
+            cmd.Parameters.AddWithValue("@Destinacija", destinacija);
+            cmd.Parameters.AddWithValue("@Cena", cena);
+            cmd.Parameters.AddWithValue("@Opis", opis);
+            cmd.Parameters.AddWithValue("@Id_tip", idTipPutovanja);
+            cmd.Parameters.AddWithValue("@Id_prevoz", idVrstaPrevoza);
+
+            cmd.ExecuteNonQuery();
+
+            MessageBox.Show("Podaci su uspešno sačuvani.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
+        }
             catch (Exception ex)
             {
                 MessageBox.Show("Došlo je do greške prilikom čuvanja podataka: " + ex.Message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);

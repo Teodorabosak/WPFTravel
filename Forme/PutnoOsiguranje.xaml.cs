@@ -28,17 +28,23 @@ namespace WPFTravel.Forme
             InitializeComponent();
             konekcija = kon.KreirajKonekciju();
             PopuniPadajuceListe();
+
             this.azuriraj = azuriraj;
             this.pomocniRed = pomocniRed;
 
-            if (azuriraj)
+            if (azuriraj && pomocniRed != null)
             {
-                txtIdOsig.Text = pomocniRed["IdOsiguranja"].ToString();
-                txtIznosO.Text = pomocniRed["IznosOsiguranja"].ToString();
-                dpPocetak.SelectedDate = Convert.ToDateTime(pomocniRed["Pocetak"]);
-                dpKraj.SelectedDate = Convert.ToDateTime(pomocniRed["Kraj"]);
-                txtIdRez.SelectedValue = pomocniRed["IdRezervacije"];
-                txtIdZ.SelectedValue = pomocniRed["IdZaposlenog"];
+                //txtIdOsig.Text = pomocniRed["Id_osig"].ToString();
+                if (pomocniRed.DataView.Table.Columns.Contains("Iznos"))
+                    txtIznosO.Text = pomocniRed["Iznos"].ToString();
+                if (pomocniRed.DataView.Table.Columns.Contains("Pocetak"))
+                    dpPocetak.SelectedDate = (DateTime)pomocniRed["Pocetak"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Kraj"))
+                    dpKraj.SelectedDate = (DateTime)pomocniRed["Kraj"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Id_rez"))
+                    txtIdRez.SelectedValue = pomocniRed["Id_rez"];
+                if (pomocniRed.DataView.Table.Columns.Contains("Id_z"))
+                    txtIdZ.SelectedValue = pomocniRed["Id_z"];
             }
         }
 
@@ -48,7 +54,7 @@ namespace WPFTravel.Forme
             {
                 konekcija.Open();
 
-                string vratiRezervacije = "SELECT Id_putovanja, Destinacija FROM Putovanje";
+                string vratiRezervacije = "SELECT Id_rez, id_korisnik FROM Rezervacija";
                 DataTable dtRezervacije = new DataTable();
                 SqlDataAdapter daRezervacije = new SqlDataAdapter(vratiRezervacije, konekcija);
                 daRezervacije.Fill(dtRezervacije);
@@ -57,7 +63,7 @@ namespace WPFTravel.Forme
                 dtRezervacije.Dispose();
                 daRezervacije.Dispose();
 
-                string vratiZaposlene = "SELECT Id_korisnik FROM Korisnik";
+                string vratiZaposlene = "SELECT Id_z, Username FROM Zaposleni";
                 DataTable dtZaposleni = new DataTable();
                 SqlDataAdapter daZaposleni = new SqlDataAdapter(vratiZaposlene, konekcija);
                 daZaposleni.Fill(dtZaposleni);
@@ -83,29 +89,36 @@ namespace WPFTravel.Forme
             {
                 konekcija.Open();
 
-                int idOsiguranja = int.Parse(txtIdOsig.Text);
-                decimal iznosOsiguranja = decimal.Parse(txtIznosO.Text);
-                DateTime pocetak = dpPocetak.SelectedDate.Value;
-                DateTime kraj = dpKraj.SelectedDate.Value;
-                int idRezervacije = Convert.ToInt32(((DataRowView)txtIdRez.SelectedItem)["Id_putovanja"]);
-                int idZaposlenog = Convert.ToInt32(((DataRowView)txtIdZ.SelectedItem)["Id_korisnik"]);
+                
 
-                string sacuvajOsiguranje;
+                int idRezervacije = Convert.ToInt32(((DataRowView)txtIdRez.SelectedItem)["Id_rez"]);
+                int idZaposlenog = Convert.ToInt32(((DataRowView)txtIdZ.SelectedItem)["Id_z"]);
+
+                string sacuvajOsig;
 
                 if (azuriraj)
                 {
-                    sacuvajOsiguranje = "UPDATE PutnoOsiguranje SET IznosOsiguranja = @IznosOsiguranja, Pocetak = @Pocetak, Kraj = @Kraj, IdRezervacije = @IdRezervacije, IdZaposlenog = @IdZaposlenog WHERE IdOsiguranja = @IdOsiguranja";
+                    sacuvajOsig = "UPDATE Putno_Osiguranje SET Iznos_O = @IznosOsiguranja, " +
+                        "Pocetak = @Pocetak, Kraj = @Kraj, Id_rez = @IdRezervacije, Id_z = @IdZaposlenog " +
+                        "WHERE Id_osig= @IdOsiguranja";
+
+                    //komanda.Parameters.AddWithValue("@IdOsiguranja", (int) pomocniRed["Id_osig"]);
                 }
                 else
                 {
-                    sacuvajOsiguranje = "INSERT INTO PutnoOsiguranje (IdOsiguranja, IznosOsiguranja, Pocetak, Kraj, IdRezervacije, IdZaposlenog) VALUES (@IdOsiguranja, @IznosOsiguranja, @Pocetak, @Kraj, @IdRezervacije, @IdZaposlenog)";
+                    sacuvajOsig = "INSERT INTO Putno_Osiguranje (Iznos_o, Pocetak, Kraj, Id_rez, Id_z) " +
+                        "VALUES (@IznosOsiguranja, @Pocetak, @Kraj, @IdRezervacije, @IdZaposlenog)";
+                }
+                SqlCommand cmd = new SqlCommand(sacuvajOsig, konekcija);
+
+                if(azuriraj)
+                {
+                    cmd.Parameters.AddWithValue("@IdOsiguranja", (int)pomocniRed["Id_osig"]);
                 }
 
-                SqlCommand cmd = new SqlCommand(sacuvajOsiguranje, konekcija);
-                cmd.Parameters.AddWithValue("@IdOsiguranja", idOsiguranja);
-                cmd.Parameters.AddWithValue("@IznosOsiguranja", iznosOsiguranja);
-                cmd.Parameters.AddWithValue("@Pocetak", pocetak);
-                cmd.Parameters.AddWithValue("@Kraj", kraj);
+                cmd.Parameters.AddWithValue("@IznosOsiguranja", txtIznosO.Text);
+                cmd.Parameters.AddWithValue("@Pocetak", dpPocetak.SelectedDate);
+                cmd.Parameters.AddWithValue("@Kraj", dpKraj.SelectedDate);
                 cmd.Parameters.AddWithValue("@IdRezervacije", idRezervacije);
                 cmd.Parameters.AddWithValue("@IdZaposlenog", idZaposlenog);
 
@@ -124,6 +137,7 @@ namespace WPFTravel.Forme
                 {
                     konekcija.Close();
                 }
+
             }
         }
 
