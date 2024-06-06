@@ -34,48 +34,48 @@ namespace WPFTravel
 
 		#region Select Upiti
 
-		string korisniciSelect = @"select id_korisnik as Sifra,  ime as Ime, prezime as Prezime, br_tel as Telefon, adresa as Adresa,  email as Email,  password as Password, username as Username, datum_rodj as 'Datum rodjenja' from Korisnik ";
+		string korisniciSelect = @"select id_korisnik,  ime as Ime, prezime as Prezime, br_tel as Telefon, adresa as Adresa,  email as Email,  password as Password, username as Username, datum_rodj as 'Datum rodjenja' from Korisnik ";
 
 		string komentarSelect = @"SELECT id_kom, k.Username, ko.Ocena, ko.Komentar
 								FROM Komentar ko
 								INNER JOIN Korisnik k ON ko.Id_korisnik = k.Id_korisnik;
 								";
 
-		string prevozSelect = @"select id_prevoz as Sifra,  vrsta as Vrsta from prevoz";
+		string prevozSelect = @"select id_prevoz,  vrsta as Vrsta from prevoz";
 
-		string putnoOsiguranjeSelect = @"SELECT id_osig as Sifra, 
-										po.iznos_o as Iznos,
-										po.pocetak as Pocetak,
-										po.kraj as Kraj,
-										po.id_rez as [Broj rezervacije],
-										z.Username as Username
-									FROM Putno_osiguranje po
-									JOIN Zaposleni z ON po.id_z = z.Id_z;
-									";
+		string putnoOsiguranjeSelect = @"SELECT id_osig,
+                                po.iznos_o as Iznos,
+                                po.pocetak as Pocetak,
+                                po.kraj as Kraj,
+                                po.id_rez as [Broj rezervacije],
+                                z.Username as Username
+                            FROM Putno_osiguranje po
+                            JOIN Zaposleni z ON po.id_z = z.Id_z;";
 
-		string putovanjaSelect = @"SELECT id_putovanja as Sifra, p.Datum as Polazak, p.Destinacija, p.Cena, p.Opis, tp.Naziv AS Kategorija, pr.Vrsta AS Prevoz
+
+		string putovanjaSelect = @"SELECT id_putovanja, p.Datum as Polazak, p.Destinacija, p.Cena, p.Opis, tp.Naziv AS Kategorija, pr.Vrsta AS Prevoz
 								FROM Putovanje p
 								INNER JOIN Tip_putovanja tp ON p.Id_tip = tp.Id_tip
 								INNER JOIN Prevoz pr ON p.Id_prevoz = pr.Id_prevoz
 								";
 
-		string rezervacijaSelect = @"SELECT id_rez as Sifra,
+		string rezervacijaSelect = @"SELECT id_rez ,
 									p.Destinacija as Destinacija,
 									r.Datum_r as 'Datum rodjenja',
 									k.Username as Username,
-									r.Otkaz as Otkaz,
+									r.Otkaz as Rezervacija,
 									r.Broj_aranzmana as 'Broj osoba'
 								FROM Rezervacija r
 								JOIN Putovanje p ON r.Id_putovanja = p.Id_putovanja
 								JOIN Korisnik k ON r.Id_korisnik = k.Id_korisnik;
 ";
 
-		string tipPutovanjaSelect = @"SELECT id_tip as Sifra,
+		string tipPutovanjaSelect = @"SELECT id_tip ,
 									Naziv
 									FROM Tip_putovanja
 									";
 
-		string zaposleniSelect = @"SELECT  id_z as Sifra,
+		string zaposleniSelect = @"SELECT  id_z ,
 								  Ime_z as Ime,
 								  Prez_z as Prezime,
 								  Email,
@@ -305,16 +305,32 @@ namespace WPFTravel
 							prozorRez.cbPutovanje.SelectedValue = citac["Id_putovanja"];
 							prozorRez.dpDatumR.SelectedDate = Convert.ToDateTime(citac["Datum_r"]);
 							prozorRez.cbKorisnik.SelectedValue = citac["Id_korisnik"];
-							if (citac["Otkaz"] != DBNull.Value && citac["Otkaz"] is bool)
+							if (citac["otkaz"] != DBNull.Value)
 							{
-								prozorRez.chkOtkaz.IsChecked = (bool)citac["Otkaz"];
+								if (citac["otkaz"] is bool)
+								{
+									prozorRez.chkOtkaz.IsChecked = (bool)citac["otkaz"];
+								}
+								else
+								{
+									bool boolValue;
+									if (bool.TryParse(citac["otkaz"].ToString(), out boolValue))
+									{
+										prozorRez.chkOtkaz.IsChecked = boolValue;
+									}
+									else
+									{
+										prozorRez.chkOtkaz.IsChecked = false;
+									}
+								}
 							}
 							else
 							{
 								prozorRez.chkOtkaz.IsChecked = false;
 							}
 
-							prozorRez.txtBrojAranzmana.Text = citac["Broj_aranzmana"].ToString();
+
+						prozorRez.txtBrojAranzmana.Text = citac["Broj_aranzmana"].ToString();
 
 						prozorRez.ShowDialog();
 					}

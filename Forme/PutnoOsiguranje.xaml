@@ -12,7 +12,7 @@
         <Label Content="Početak:" HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top"/>
         <Label Content="Kraj:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top"/>
         <Label Content="Broj rezervacije:" HorizontalAlignment="Left" Margin="30,140,0,0" VerticalAlignment="Top"/>
-        <Label Content="ID Zaposlenog:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
+        <Label Content="Username:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
 
         
         <TextBox x:Name="txtIznosO" HorizontalAlignment="Left" Height="23" Margin="180,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>

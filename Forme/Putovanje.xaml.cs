@@ -47,7 +47,6 @@ namespace WPFTravel.Forme
                     cbTipPutovanja.SelectedValue = pomocniRed["Id_tip"];
                 if (pomocniRed.DataView.Table.Columns.Contains("Id_prevoz"))
                     cbVrstaPrevoza.SelectedValue = pomocniRed["Id_prevoz"];
-
             }
 
 
@@ -71,11 +70,15 @@ namespace WPFTravel.Forme
 
                 // Fetching data for Vrsta Prevoza
                 string vratiVrstaPrevoza = @"SELECT Id_prevoz, Vrsta FROM Prevoz";
+               
                 DataTable dtVrstaPrevoza = new DataTable();
                 SqlDataAdapter daVrstaPrevoza = new SqlDataAdapter(vratiVrstaPrevoza, konekcija);
                 daVrstaPrevoza.Fill(dtVrstaPrevoza);
 
                 cbVrstaPrevoza.ItemsSource = dtVrstaPrevoza.DefaultView;
+
+                dtVrstaPrevoza.Dispose();
+                daVrstaPrevoza.Dispose();
             }
             catch (SqlException ex)
             {
@@ -118,7 +121,7 @@ namespace WPFTravel.Forme
 
             if (azuriraj)
             {
-                cmd.Parameters.AddWithValue("@Id_putovanja", pomocniRed["Id_putovanja"]);
+                cmd.Parameters.AddWithValue("@Id_putovanja", (int)pomocniRed["Id_putovanja"]);
             }
 
             cmd.Parameters.AddWithValue("@Datum", datum);

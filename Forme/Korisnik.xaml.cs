@@ -40,14 +40,15 @@ namespace WPFTravel.Forme
 		{
 
 			InitializeComponent();
-			txtBrTel.Focus();
+            konekcija = kon.KreirajKonekciju();
+            txtBrTel.Focus();
 			this.azuriraj = azuriraj;
 			this.pomocniRed = pomocniRed;
 
-			if (azuriraj)
+			if (azuriraj && pomocniRed != null)
+                
 			{
-                if (pomocniRed != null)
-                {
+  
                     // Check if the expected columns are present
                     if (pomocniRed.DataView.Table.Columns.Contains("Br_Tel"))
                         txtBrTel.Text = pomocniRed["Br_Tel"].ToString();
@@ -65,14 +66,10 @@ namespace WPFTravel.Forme
                         txtPassword.Password = pomocniRed["Password"].ToString();
                     if (pomocniRed.DataView.Table.Columns.Contains("Datum_rodj"))
                         dpDatumRodj.SelectedDate = Convert.ToDateTime(pomocniRed["Datum_rodj"]);
-                }
-                else
-                {
-                    MessageBox.Show("Podaci nisu dostupni za ažuriranje.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                
             }
 
-			konekcija = kon.KreirajKonekciju();
+			
 
 		}
 

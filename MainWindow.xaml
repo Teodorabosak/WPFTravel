@@ -17,14 +17,14 @@
 
         <!-- StackPanel za smestanje tih podataka -->
         <StackPanel  HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="auto"  Orientation="Horizontal">
-            <Button x:Name="btnPutovanja" Click="BtnPutovanja" Content="Putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="btnTipoviPutovanja" Click="BtnTipoviPutovanja" Content="Kategorije putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="btnPutnaOsiguranja" Click="BtnPutnaOsiguranja" Content="Osiguranje" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="btnRezervacije" Click="BtnRezervacije" Content="Rezervacije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="100"/>
-            <Button x:Name="btnPrevoz" Click="BtnPrevoz" Content="Prevoz" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="btnKorisnici" Click="BtnKorisnici" Content="Korisnici" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="btnZaposleni" Click="BtnZaposleni" Content="Zaposleni" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="btnKomentar" Click="BtnKomentar" Content="Recenzije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnPutovanja" Background="White" Click="BtnPutovanja" Content="Putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnTipoviPutovanja" Background="White" Click="BtnTipoviPutovanja" Content="Kategorije putovanja" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="btnPutnaOsiguranja" Background="White" Click="BtnPutnaOsiguranja" Content="Osiguranje" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="btnRezervacije" Background="White" Click="BtnRezervacije" Content="Rezervacije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="100"/>
+            <Button x:Name="btnPrevoz" Background="White" Click="BtnPrevoz" Content="Prevoz" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnKorisnici" Background="White" Click="BtnKorisnici" Content="Korisnici" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnZaposleni" Background="White" Click="BtnZaposleni" Content="Zaposleni" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btnKomentar"  Background="White" Click="BtnKomentar" Content="Recenzije" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="75"/>
         </StackPanel>
 
         <!--crud operacije  -->
@@ -33,20 +33,13 @@
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="White"/>
-                        <!-- Boja dugmeta -->
+                       
                         <Setter Property="Foreground" Value="Black"/>
-                        <!-- Boja teksta -->
+                        
                         <Setter Property="BorderBrush" Value="Transparent"/>
                         
                         <Setter Property="Margin" Value="5"/>
-                        <!-- Margina oko dugmeta -->
-                        <!-- Promena boje kada je kursor iznad dugmeta -->
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightPink"/>
-                                <!-- Boja kada je kursor iznad dugmeta -->
-                            </Trigger>
-                        </Style.Triggers>
+                        
                     </Style>
                 </Button.Style>
             </Button>
