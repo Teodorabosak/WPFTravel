@@ -40,9 +40,10 @@ namespace WPFTravel.Forme
             
             konekcija = kon.KreirajKonekciju();
             PopuniPadajuceListe();
-            this.azuriraj = azuriraj;
+            this.azuriraj = azuriraj; //azuriraj je kao ozn da li je u pitanju azuriranje ili insert
             this.pomocniRed = pomocniRed;
-
+            //Ako je pomocniRed null, to znači da se kreira novi zapis,
+            //a ako nije null, znači da se ažurira postojeći zapis.
 
             if (azuriraj && pomocniRed != null)
             {
@@ -55,21 +56,25 @@ namespace WPFTravel.Forme
                 if (pomocniRed.DataView.Table.Columns.Contains("Ocena"))
                     txtOcena.Text = pomocniRed["Ocena"].ToString();
             }
+            //Ovo omogućava da se forma popuni sa podacima iz postojećeg zapisa koji se ažurira.
 
         }
         private void PopuniPadajuceListe()
         {
             try
             {
+                //gde ima combobox
                 konekcija.Open();
 
-                string vratiKor = @"select Id_korisnik, Username from Korisnik";
-                DataTable dtKorisnik = new DataTable();
+                string vratiKor = @"select Id_korisnik, Username from Korisnik"; //sta treba da nam vraca
+                DataTable dtKorisnik = new DataTable(); 
                 SqlDataAdapter daKorisnik = new SqlDataAdapter(vratiKor, konekcija);
                 daKorisnik.Fill(dtKorisnik);
 
-                cbKorisnik.ItemsSource = dtKorisnik.DefaultView;
-                dtKorisnik.Dispose();
+                cbKorisnik.ItemsSource = dtKorisnik.DefaultView; 
+                //će prikazati podatke iz DataTable-a dtKorisnik u svom padajućem meniju,
+                //omogućavajući korisnicima da izaberu jednu od opcija koje su prikazane.
+                dtKorisnik.Dispose(); //oslobadja resurse
                 daKorisnik.Dispose();
 
             }

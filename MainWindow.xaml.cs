@@ -33,6 +33,7 @@ namespace WPFTravel
 		SqlConnection konekcija = new SqlConnection();
 
 		#region Select Upiti
+		//upiti, select sve iz tabele
 
 		string korisniciSelect = @"select id_korisnik,  ime as Ime, prezime as Prezime, br_tel as Telefon, adresa as Adresa,  email as Email,  password as Password, username as Username, datum_rodj as 'Datum rodjenja' from Korisnik ";
 
@@ -86,7 +87,8 @@ namespace WPFTravel
 		
 		#endregion
 
-		#region Select upiti sa uslovom
+		#region Select upiti sa uslovom 
+		//update konkretan red, menjamo
 
 		string UpdateKorisnik = @"select * from korisnik where id_korisnik= @Id";
 		string UpdateKomentar = @"select * from komentar where id_kom=  @Id";
@@ -100,6 +102,7 @@ namespace WPFTravel
 		#endregion
 
 		#region Delete upiti
+		//brisanje reda
 		string korisniciDelete = @" delete from korisnik where id_korisnik= @Id ";
 		string komentarDelete = @" delete  from komentar where id_kom=  @Id ";
 		string prevozDelete = @" delete from prevoz where id_prevoz=  @Id";
@@ -110,14 +113,14 @@ namespace WPFTravel
 		string deleteZap = @" delete from zaposleni  where id_z= @Id ";
 		#endregion
 
-		public MainWindow()
+		public MainWindow() //glavni prozor, konstruktor
 		{
 			InitializeComponent();
 			konekcija = kon.KreirajKonekciju();
-			UcitajPodatke(dataGridCentralni, putovanjaSelect);
+			UcitajPodatke(dataGridCentralni, putovanjaSelect); //metoda koju pozivamo da bi nam se popunili podaci u centralnom delu tabee, default
 
 		}
-		public void UcitajPodatke(DataGrid grid, string selectUpit)
+		public void UcitajPodatke(DataGrid grid, string selectUpit) 
 		{
 			try
 			{
@@ -148,7 +151,7 @@ namespace WPFTravel
 				}
 			}
 		}
-
+		//dugmici sta vracaju
 
 		private void BtnKorisnici(object sender, RoutedEventArgs e)
 		{
@@ -187,9 +190,9 @@ namespace WPFTravel
 		// CREATE
 		private void BtnDodaj(object sender, RoutedEventArgs e)
 		{
-			Window prozor;
+			Window prozor; //promenljliva prozor tipa prozor
 
-			if (ucitanaTabela.Equals(korisniciSelect))
+			if (ucitanaTabela.Equals(korisniciSelect)) //ako je tabela koja je ucitana korisnik 
 			{
 				prozor = new Korisnik();
 				prozor.ShowDialog();
@@ -245,7 +248,7 @@ namespace WPFTravel
 
 		void PopuniFormu(DataGrid grid, string selectUslov)
 		{
-			if (grid.SelectedItems.Count == 0)
+			if (grid.SelectedItems.Count == 0) //br selektovanih stavki jednak nuli
 			{
 				MessageBox.Show("Niste selektovali red!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
@@ -253,40 +256,33 @@ namespace WPFTravel
 
 			try
 			{
+				//otvara konekcija
 				konekcija.Open();
-				azuriraj = true;
-				DataRowView red = (DataRowView)grid.SelectedItems[0];
-				pomocniRed = red;
-
-				// Debug: Check the columns in the DataRowView
-				Console.WriteLine("Columns in DataRowView:");
-				foreach (DataColumn column in red.DataView.Table.Columns)
-				{
-					Console.WriteLine(column.ColumnName);
-				}
+				azuriraj = true; //u toku je azuriranje
+				DataRowView red = (DataRowView)grid.SelectedItems[0]; //uzima taj red
+				pomocniRed = red; //cuva taj red u promenljicoj
 
 
+
+				// Dobiti naziv kolone koja sadrži ID, provera 
 				string idColumnName = GetIdColumnName();
-				if (!red.DataView.Table.Columns.Contains(idColumnName))
-				{
-					MessageBox.Show($"Column '{idColumnName}' not found in DataTable!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
-				}
+				
 
 
 				SqlCommand komanda = new SqlCommand(selectUslov, konekcija);
-				komanda.Parameters.AddWithValue("@id", red[idColumnName]);
-				SqlDataReader citac = komanda.ExecuteReader();
+				komanda.Parameters.AddWithValue("@id", red[idColumnName]); // Dodati vrednost ID parametra u SQL komandu
+				SqlDataReader citac = komanda.ExecuteReader(); // Izvršiti komandu i dobiti SqlDataReader za čitanje podataka
 
-				
 
-				
+
+
 
 
 				while (citac.Read())
 					{
 						if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal))
-						{
+						// Kreirati novi prozor za korisnika i popuniti podatke iz citaca
+					{
 							Korisnik prozorKor = new Korisnik(azuriraj, pomocniRed);
 							prozorKor.txtBrTel.Text = citac["br_tel"].ToString();
 							prozorKor.txtAdresa.Text = citac["adresa"].ToString();
@@ -305,29 +301,26 @@ namespace WPFTravel
 							prozorRez.cbPutovanje.SelectedValue = citac["Id_putovanja"];
 							prozorRez.dpDatumR.SelectedDate = Convert.ToDateTime(citac["Datum_r"]);
 							prozorRez.cbKorisnik.SelectedValue = citac["Id_korisnik"];
-							if (citac["otkaz"] != DBNull.Value)
+
+						if(citac["otkaz"] != DBNull.Value)
+{
+							// Proveriti da li je vrednost polja 'otkaz' jednaka "Otkazana"
+							if (citac["otkaz"].ToString() == "Otkazana")
 							{
-								if (citac["otkaz"] is bool)
-								{
-									prozorRez.chkOtkaz.IsChecked = (bool)citac["otkaz"];
-								}
-								else
-								{
-									bool boolValue;
-									if (bool.TryParse(citac["otkaz"].ToString(), out boolValue))
-									{
-										prozorRez.chkOtkaz.IsChecked = boolValue;
-									}
-									else
-									{
-										prozorRez.chkOtkaz.IsChecked = false;
-									}
-								}
+								// Postaviti čekboks na true ako je 'otkaz' jednaka "Otkazana"
+								prozorRez.chkOtkaz.IsChecked = true;
 							}
 							else
 							{
+								// Ako nije "Otkazana", postaviti čekboks na false
 								prozorRez.chkOtkaz.IsChecked = false;
 							}
+						}
+						else
+						{
+							// Ako polje 'otkaz' nema vrednost, postaviti čekboks na false, ovo se nece desiti a za svaki sluc
+							prozorRez.chkOtkaz.IsChecked = false;
+						}
 
 
 						prozorRez.txtBrojAranzmana.Text = citac["Broj_aranzmana"].ToString();
@@ -395,7 +388,7 @@ namespace WPFTravel
 						prozorPut.txtDestinacija.Text= citac["Destinacija"].ToString();
 						prozorPut.txtOpis.Text = citac["Opis"].ToString();
 						prozorPut.txtCena.Text = citac["Cena"].ToString();
-						prozorPut.cbTipPutovanja.SelectedValue = citac["Id_putovanja"].ToString();
+						prozorPut.cbTipPutovanja.SelectedValue = citac["Id_tip"].ToString();
 						prozorPut.cbVrstaPrevoza.SelectedValue = citac["Id_prevoz"].ToString();
 
 						prozorPut.ShowDialog();
@@ -410,10 +403,7 @@ namespace WPFTravel
 			{
 				MessageBox.Show("Niste selektovali red!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-			catch (SqlException ex)
-			{
-				MessageBox.Show($"SQL greška: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			
 			finally
 			{
 				if (konekcija != null)
@@ -429,7 +419,7 @@ namespace WPFTravel
 
 
 		// DELETE
-		void ObrisiZapis(DataGrid grid, string deleteUpit, string idColumnName)
+		void ObrisiZapis(DataGrid grid, string deleteUpit, string idColumnName) //brisanje zapisa iz baze podataka na osnovu selektovanog reda u DataGrid kontroli. 
 		{
 			try
 			{
@@ -443,6 +433,8 @@ namespace WPFTravel
 				{
 					SqlCommand komanda = new SqlCommand(deleteUpit, konekcija);
 					komanda.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(red[idColumnName]);
+					//Dodajemo parametar @id u SQL komandu i dodeljujemo mu vrednost
+					//identifikatora izabranog reda. idColumnName je naziv kolone koja sadrži identifikator.
 					komanda.ExecuteNonQuery();
 					komanda.Dispose();
 				}
@@ -523,7 +515,7 @@ namespace WPFTravel
 
 		string GetIdColumnName()
 		{
-			if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal)) return "id_korisnik";
+			if (ucitanaTabela.Equals(korisniciSelect, StringComparison.Ordinal)) return "id_korisnik"; // trenutno učitana tabela korisniciSelect, metod će vratiti naziv kolone "id_korisnik".
 			if (ucitanaTabela.Equals(rezervacijaSelect, StringComparison.Ordinal)) return "Id_rez";
 			if (ucitanaTabela.Equals(prevozSelect, StringComparison.Ordinal)) return "id_prevoz";
 			if (ucitanaTabela.Equals(tipPutovanjaSelect, StringComparison.Ordinal)) return "id_tip";
@@ -531,7 +523,7 @@ namespace WPFTravel
 			if (ucitanaTabela.Equals(komentarSelect, StringComparison.Ordinal)) return "id_kom";
 			if (ucitanaTabela.Equals(putnoOsiguranjeSelect, StringComparison.Ordinal)) return "id_osig";
 			if (ucitanaTabela.Equals(putovanjaSelect, StringComparison.Ordinal)) return "id_putovanja";
-			return "ID"; // Default case, assuming there's a column named "ID" as a fallback
+			return "ID"; 
 		}
 
 		private void btnIzmeni_Click(object sender, RoutedEventArgs e)

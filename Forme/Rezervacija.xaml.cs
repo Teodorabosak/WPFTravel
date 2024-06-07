@@ -42,7 +42,7 @@ namespace WPFTravel.Forme
                 if (pomocniRed.DataView.Table.Columns.Contains("Id_korisnik"))
                     cbKorisnik.SelectedValue = pomocniRed["Id_korisnik"];
                 if (pomocniRed.DataView.Table.Columns.Contains("Otkaz"))
-                    chkOtkaz.IsChecked = pomocniRed["Otkaz"].ToString() == "otkazana";
+                    chkOtkaz.IsChecked = pomocniRed["Otkaz"].ToString() == "Otkazana";
                 if (pomocniRed.DataView.Table.Columns.Contains("Broj_aranzmana"))
                     txtBrojAranzmana.Text = pomocniRed["Broj_aranzmana"].ToString();
             }
@@ -92,7 +92,7 @@ namespace WPFTravel.Forme
                 //int id_Rez = int.Parse(txtIdRez.Text);
                 DateTime datum = dpDatumR.SelectedDate.Value;
 
-                string otkaz = chkOtkaz.IsChecked ?? false ? "otkazana" : "aktivna";
+                string otkaz = chkOtkaz.IsChecked ?? false ? "Otkazana" : "Aktivna";
                 int idPutovanja = Convert.ToInt32(((DataRowView)cbPutovanje.SelectedItem)["Id_putovanja"]);
                 int idKorisnika = Convert.ToInt32(((DataRowView)cbKorisnik.SelectedItem)["Id_korisnik"]);
                 int brojAranzmana = int.Parse(txtBrojAranzmana.Text);

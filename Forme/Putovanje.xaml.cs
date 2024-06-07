@@ -102,9 +102,7 @@ namespace WPFTravel.Forme
             string opis = txtOpis.Text;
             int idTipPutovanja = Convert.ToInt32(((DataRowView)cbTipPutovanja.SelectedItem)["Id_tip"]);
             int idVrstaPrevoza = Convert.ToInt32(((DataRowView)cbVrstaPrevoza.SelectedItem)["Id_prevoz"]);
-
-                string sacuvajPutovanje;
-
+            string sacuvajPutovanje;
             if (azuriraj)
             {
                 sacuvajPutovanje = "UPDATE Putovanje SET Datum = @Datum, Destinacija = @Destinacija, " +
@@ -116,14 +114,11 @@ namespace WPFTravel.Forme
                 sacuvajPutovanje = "INSERT INTO Putovanje (Datum, Destinacija, Cena, Opis, Id_tip, Id_prevoz) " +
                         "VALUES (@Datum, @Destinacija, @Cena, @Opis, @Id_tip, @Id_prevoz)";
             }
-
             SqlCommand cmd = new SqlCommand(sacuvajPutovanje, konekcija);
-
             if (azuriraj)
             {
                 cmd.Parameters.AddWithValue("@Id_putovanja", (int)pomocniRed["Id_putovanja"]);
             }
-
             cmd.Parameters.AddWithValue("@Datum", datum);
             cmd.Parameters.AddWithValue("@Destinacija", destinacija);
             cmd.Parameters.AddWithValue("@Cena", cena);
@@ -135,7 +130,7 @@ namespace WPFTravel.Forme
 
             MessageBox.Show("Podaci su uspešno sačuvani.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
-        }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Došlo je do greške prilikom čuvanja podataka: " + ex.Message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
